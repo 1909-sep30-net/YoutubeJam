@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Sentiment } from './sentiment';
+import { YoutubeComment } from './youtube-comment';
 import { YoutubeCommentsSentimentService } from './youtube-comments-sentiment.service'
 
 @Component({
@@ -7,7 +7,7 @@ import { YoutubeCommentsSentimentService } from './youtube-comments-sentiment.se
     templateUrl: './youtube-comments-sentiment.component.html'
 })
 export class YoutubeCommentsSentimentComponent {
-    public sentiment: Sentiment;
+    public youtubeComments: YoutubeComment[];
 
     constructor(private youtubeCommentsSentimentService: YoutubeCommentsSentimentService) {
     }
@@ -15,7 +15,7 @@ export class YoutubeCommentsSentimentComponent {
     getCommentsSentiment(videoText: string) {
         var url = new URL(videoText);
         this.youtubeCommentsSentimentService.getSentiment(url.searchParams.get("v")).subscribe(result => {
-            this.sentiment = result;
+            this.youtubeComments = result;
         }, error => console.error(error));
     }
 }
