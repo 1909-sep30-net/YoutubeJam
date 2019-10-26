@@ -14,7 +14,7 @@ variables:
 
 steps:
 
-- script: cd Project1WebApp && dotnet build --configuration $(buildConfiguration)
+- script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
 # - script: dotnet test
