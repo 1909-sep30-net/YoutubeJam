@@ -13,6 +13,16 @@ variables:
   buildConfiguration: 'Release'
   
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Project2'
+    organization: 'mtnolasco1'
+    scannerMode: 'MSBuild'
+    projectKey: 'YoutubeJam'
+    projectName: 'YoutubeJam'
+    extraProperties: |
+      sonar.exclusions = **/lib/**
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
@@ -27,6 +37,11 @@ steps:
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
+- task: SonarCloudAnalyze@1
+  displayName: Run code analysis
+
+- task: SonarCloudPublish@1
+  displayName: Publish code analysis
 
 - task: DotNetCoreCLI@2
   displayName: dotnet publish + zip
