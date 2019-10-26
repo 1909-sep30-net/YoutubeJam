@@ -1,6 +1,9 @@
 <h1 id="tableLabel">Youtube Comments Sentiment</h1>
-
-<input type="text" placeholder="Video ID" #videoId />
-<button class="btn btn-primary" (click)="getCommentsSentiment(videoId.value)">Get Comments Sentiment</button>
-
+<hr />
+<div>
+  <input type="text" placeholder="Video ID" #videoId />
+</div>
+<div>
+  <button class="btn btn-primary" (click)="getCommentsSentiment(videoId.value)">Get Comments Sentiment</button>
+</div>
 <p *ngIf="sentiment">{{ sentiment.summary }}</p>
