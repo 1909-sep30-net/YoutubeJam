@@ -1,4 +1,4 @@
-﻿namespace YoutubeJam.WebApp
+﻿namespace YoutubeJam.BusinessLogic
 {
     public class Sentiment
     {

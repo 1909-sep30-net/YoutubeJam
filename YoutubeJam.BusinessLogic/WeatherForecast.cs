@@ -1,6 +1,6 @@
 using System;
 
-namespace YoutubeJam.WebApp
+namespace YoutubeJam.BusinessLogic
 {
     public class WeatherForecast
     {

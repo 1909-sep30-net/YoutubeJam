@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeJam.WebApp", "YoutubeJam.WebApp\YoutubeJam.WebApp.csproj", "{280EABAA-A8F7-4C7E-A26C-8BBFFD79984D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoutubeJam.WebApp", "YoutubeJam.WebApp\YoutubeJam.WebApp.csproj", "{280EABAA-A8F7-4C7E-A26C-8BBFFD79984D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeJam.BusinessLogic", "YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj", "{96AF1AB2-10D6-4CE5-BB58-4DAE711920E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeJam.Test", "YoutubeJam.Test\YoutubeJam.Test.csproj", "{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{280EABAA-A8F7-4C7E-A26C-8BBFFD79984D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{280EABAA-A8F7-4C7E-A26C-8BBFFD79984D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{280EABAA-A8F7-4C7E-A26C-8BBFFD79984D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96AF1AB2-10D6-4CE5-BB58-4DAE711920E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96AF1AB2-10D6-4CE5-BB58-4DAE711920E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96AF1AB2-10D6-4CE5-BB58-4DAE711920E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96AF1AB2-10D6-4CE5-BB58-4DAE711920E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
