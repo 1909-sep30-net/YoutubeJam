@@ -12,8 +12,9 @@ export class YoutubeCommentsSentimentComponent {
     constructor(private youtubeCommentsSentimentService: YoutubeCommentsSentimentService) {
     }
 
-    getCommentsSentiment(videoId: string) {
-        this.youtubeCommentsSentimentService.getSentiment(videoId).subscribe(result => {
+    getCommentsSentiment(videoText: string) {
+        var url = new URL(videoText);
+        this.youtubeCommentsSentimentService.getSentiment(url.searchParams.get("v")).subscribe(result => {
             this.sentiment = result;
         }, error => console.error(error));
     }

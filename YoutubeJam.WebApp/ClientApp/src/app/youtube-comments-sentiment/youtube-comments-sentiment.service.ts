@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Sentiment } from './sentiment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 
 export class YoutubeCommentsSentimentService {

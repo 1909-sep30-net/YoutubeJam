@@ -1,9 +1,10 @@
 <h1 id="tableLabel">Youtube Comments Sentiment</h1>
 <hr />
-<div>
-  <input type="text" placeholder="Video ID" #videoId />
+<div class="input-group mb-3">
+  <input #videoText type="text" class="form-control" placeholder="Video URL" aria-label="Video URL" aria-describedby="Video URL">
+  <div class="input-group-append">
+    <button class="btn btn-primary" (click)="getCommentsSentiment(videoText.value)">Get Comments Sentiment</button>
+  </div>
 </div>
-<div>
-  <button class="btn btn-primary" (click)="getCommentsSentiment(videoId.value)">Get Comments Sentiment</button>
-</div>
+<hr />
 <p *ngIf="sentiment">{{ sentiment.summary }}</p>
