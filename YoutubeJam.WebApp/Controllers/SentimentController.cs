@@ -22,13 +22,13 @@ namespace YoutubeJam.WebApp.Controllers
         }
 
         [HttpGet]
-        public Sentiment Get()
+        public Sentiment Get(string videoId)
         {
             try
             {
                 return new Sentiment
                 {
-                    Summary = SummarizeCommentThreadList(ParseCommentThreadList(GetCommentThreadList()))
+                    Summary = SummarizeCommentThreadList(ParseCommentThreadList(GetCommentThreadList(videoId)))
                 };
             }
             catch (AggregateException ex)
@@ -41,7 +41,7 @@ namespace YoutubeJam.WebApp.Controllers
             }
         }
 
-        private CommentThreadListResponse GetCommentThreadList()
+        private CommentThreadListResponse GetCommentThreadList(string videoId)
         {
             // Initialize the youtube service with the API key
             YouTubeService youtubeService = YoutubeDataAPIAuth.GetYoutubeService();
@@ -50,7 +50,7 @@ namespace YoutubeJam.WebApp.Controllers
             CommentThreadsResource.ListRequest commentThreadsListRequest = youtubeService.CommentThreads.List("snippet");
             commentThreadsListRequest.MaxResults = 100;
             commentThreadsListRequest.TextFormat = CommentThreadsResource.ListRequest.TextFormatEnum.PlainText;
-            commentThreadsListRequest.VideoId = "wJXuvTFQJRM";
+            commentThreadsListRequest.VideoId = videoId;
 
             // Retrieve the response
             CommentThreadListResponse commentThreadsListResponse = commentThreadsListRequest.Execute();
