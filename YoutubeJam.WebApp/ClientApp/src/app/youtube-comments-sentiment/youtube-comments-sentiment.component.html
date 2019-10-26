@@ -1,9 +1,28 @@
 <h1 id="tableLabel">Youtube Comments Sentiment</h1>
 <hr />
-<div>
-  <input type="text" placeholder="Video ID" #videoId />
+<div class="input-group mb-3">
+  <input #videoText type="text" class="form-control" placeholder="Video URL" aria-label="Video URL" aria-describedby="Video URL">
+  <div class="input-group-append">
+    <button class="btn btn-primary" (click)="getCommentsSentiment(videoText.value)">Get Comments Sentiment</button>
+  </div>
 </div>
-<div>
-  <button class="btn btn-primary" (click)="getCommentsSentiment(videoId.value)">Get Comments Sentiment</button>
+<hr />
+<div *ngIf="youtubeComments">
+  <table class="table table-dark table-bordered">
+    <caption>List of comments</caption>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Author</th>
+        <th scope="col">Comment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let comment of youtubeComments; let i = index">
+        <th scope="row">{{i}}</th>
+        <td>{{comment.authorName}}</td>
+        <td>{{comment.content}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<p *ngIf="sentiment">{{ sentiment.summary }}</p>
