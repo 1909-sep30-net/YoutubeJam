@@ -44,8 +44,17 @@ steps:
   displayName: Publish code analysis
 
 - task: DotNetCoreCLI@2
-  displayName: dotnet publish + zip
+  displayName: app service deploy
   inputs:
     command: 'publish'
     publishWebProjects: true
     zipAfterPublish: true
+
+- task: AzureRmWebAppDeployment@4
+  displayName: dotnet publish + zip
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(cb0d2e9c-c632-4eec-93d0-d1e5f9589605)'
+    appType: 'webApp'
+    WebAppName: 'YouTubeJam'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
