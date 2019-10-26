@@ -26,6 +26,7 @@ namespace YoutubeJam.WebApp.Controllers
         {
             try
             {
+                // Return a new sentiment with the summary
                 return new Sentiment
                 {
                     Summary = SummarizeCommentThreadList(ParseCommentThreadList(GetCommentThreadList(videoId)))
