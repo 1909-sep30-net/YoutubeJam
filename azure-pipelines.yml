@@ -5,8 +5,9 @@
 trigger:
   branches:
     include:
-    - javon
-    - master
+      - javon
+    exclude:
+      - master
 
 
 pool:
