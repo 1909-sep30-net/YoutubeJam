@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using YoutubeJam.Auth;
 using YoutubeJam.BusinessLogic;
+using System.Linq;
 
 namespace YoutubeJam.WebApp.Controllers
 {
@@ -20,7 +21,7 @@ namespace YoutubeJam.WebApp.Controllers
         }
 
         [HttpGet]
-        public IList<YoutubeComment> Get(string videoId)
+        public AverageSentiment Get(string videoId)
         {
             try
             {
@@ -37,23 +38,27 @@ namespace YoutubeJam.WebApp.Controllers
             }
         }
 
-        private IList<YoutubeComment> ParseCommentThreadListResponse(CommentThreadListResponse commentThreadListResponse)
+        private AverageSentiment ParseCommentThreadListResponse(CommentThreadListResponse commentThreadListResponse)
         {
+
             // Construct the empty parsed comment threads list
-            IList<YoutubeComment> parsedCommentThreadsList = new List<YoutubeComment>();
+            AverageSentiment averageScore = new AverageSentiment();
 
             // Iterate over the comment thread list response and add each comment text
             foreach (CommentThread commentThread in commentThreadListResponse.Items)
             {
-                parsedCommentThreadsList.Add(new YoutubeComment
-                {
-                    AuthorName = commentThread.Snippet.TopLevelComment.Snippet.AuthorDisplayName,
-                    Content = commentThread.Snippet.TopLevelComment.Snippet.TextDisplay
-                });
+                var comment = new YoutubeComment();
+                comment.AuthorName = commentThread.Snippet.TopLevelComment.Snippet.AuthorDisplayName;
+                comment.Content = commentThread.Snippet.TopLevelComment.Snippet.TextDisplay;
+                comment.SentimentScore = SentimentAnalysis.SelectComments(comment.Content);
+
+                averageScore.CommentList.Add(comment);
             }
 
+            averageScore.AverageSentimentScore = averageScore.CommentList.Average(c => c.SentimentScore);
+
             // Return the parsed comment threads list
-            return parsedCommentThreadsList;
+            return averageScore;
         }
     }
 }

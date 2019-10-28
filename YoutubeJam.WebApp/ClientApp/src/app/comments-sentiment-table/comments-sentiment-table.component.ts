@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { YoutubeComment } from '../youtube-comments-sentiment/youtube-comment';
+import { AverageSentiment } from '../youtube-comments-sentiment/average-sentiment';
 
 @Component({
     selector: 'comments-sentiment-table',
     templateUrl: './comments-sentiment-table.component.html'
 })
 export class CommentsSentimentTableComponent {
-    @Input('youtubeComments') youtubeComments: YoutubeComment[];
+    @Input('averageSentiment') averageSentiment: AverageSentiment;
 }

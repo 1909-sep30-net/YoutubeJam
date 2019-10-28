@@ -1,17 +1,24 @@
 <table class="table table-dark table-bordered">
+  <tr>
+    <td>Average Score: {{averageSentiment.averageSentimentScore}}</td>
+  </tr>
+</table>
+<table class="table table-dark table-bordered">
   <caption>Comment Sentiments</caption>
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Author</th>
       <th scope="col">Comment</th>
+      <th scope="col">Score</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let comment of youtubeComments; let i = index">
+    <tr *ngFor="let comment of averageSentiment.commentList; let i = index">
       <th scope="row">{{i}}</th>
       <td>{{comment.authorName}}</td>
       <td>{{comment.content}}</td>
+      <td>{{comment.sentimentScore}}</td>
     </tr>
   </tbody>
 </table>

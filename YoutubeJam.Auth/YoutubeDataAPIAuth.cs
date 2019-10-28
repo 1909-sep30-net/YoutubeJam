@@ -36,7 +36,7 @@ namespace YoutubeJam.Auth
 
             // Construct the request
             CommentThreadsResource.ListRequest commentThreadsListRequest = youtubeService.CommentThreads.List("snippet");
-            commentThreadsListRequest.MaxResults = 100;
+            commentThreadsListRequest.MaxResults = 10;
             commentThreadsListRequest.TextFormat = CommentThreadsResource.ListRequest.TextFormatEnum.PlainText;
             commentThreadsListRequest.VideoId = videoId;
 
