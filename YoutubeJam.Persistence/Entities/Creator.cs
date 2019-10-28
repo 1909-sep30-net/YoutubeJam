@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace YoutubeJam.Persistence.Entities
 {
@@ -11,7 +8,8 @@ namespace YoutubeJam.Persistence.Entities
     public class Creator
     {
         [Key]
-        public int PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

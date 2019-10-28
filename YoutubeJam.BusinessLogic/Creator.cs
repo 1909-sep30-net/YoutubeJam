@@ -7,9 +7,9 @@ namespace YoutubeJam.BusinessLogic
     /// <summary>
     /// This is a class for our end users i.e the youtube content creators
     /// </summary>
-    class Creator
+    public class Creator
     {
-        public int PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
 
         public string FirstName { get; set; }
 
