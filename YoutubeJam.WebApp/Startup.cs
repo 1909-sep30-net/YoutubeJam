@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using YoutubeJam.Auth;
+using YoutubeJam.BusinessLogic;
+using YoutubeJam.Persistence;
 using YoutubeJam.Persistence.Entities;
 
 namespace YoutubeJam.WebApp
@@ -29,6 +31,8 @@ namespace YoutubeJam.WebApp
                 configuration.RootPath = "ClientApp/dist";
             });
             services.AddDbContext<YouTubeJamContext>(options => options.UseNpgsql(Configuration.GetConnectionString("YoutubeJam")));
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IMapper, DBMapper>();
             YoutubeDataAPIAuth.YoutubeDataAPIKey = Configuration["YoutubeDataAPIKey"];
         }
 
