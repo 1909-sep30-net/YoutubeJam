@@ -29,8 +29,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\comments-sentiment-table\comments-sentiment-table.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YoutubeJam.Auth\YoutubeJam.Auth.csproj" />
     <ProjectReference Include="..\YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\comments-sentiment-table\comments-sentiment-table.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
