@@ -7,7 +7,7 @@
   </div>
 </div>
 <hr />
-<div *ngIf="safeEmbedUrl && youtubeComments">
+<div *ngIf="safeEmbedUrl && averageSentiment">
   <div class="center">
     <h2>Youtube Video</h2>
   </div>
@@ -17,6 +17,6 @@
     <div class="center">
       <h2>Comment Analysis</h2>
     </div>
-    <comments-sentiment-table [youtubeComments]="youtubeComments"></comments-sentiment-table>
+    <comments-sentiment-table [averageSentiment]="averageSentiment"></comments-sentiment-table>
   </div>
 </div>

@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\comments-sentiment-table\comments-sentiment-table.component.ts" />
+    <None Remove="ClientApp\src\app\youtube-comments-sentiment\average-sentiment.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +42,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\comments-sentiment-table\comments-sentiment-table.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\youtube-comments-sentiment\average-sentiment.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

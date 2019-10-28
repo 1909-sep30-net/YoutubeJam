@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { YoutubeComment } from './youtube-comment';
+import { AverageSentiment } from './average-sentiment';
 import { YoutubeCommentsSentimentService } from './youtube-comments-sentiment.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { YoutubeCommentsSentimentService } from './youtube-comments-sentiment.se
 })
 export class YoutubeCommentsSentimentComponent {
     safeEmbedUrl: SafeResourceUrl;
-    youtubeComments: YoutubeComment[];
+    averageSentiment: AverageSentiment;
 
     constructor(
         private youtubeCommentsSentimentService: YoutubeCommentsSentimentService,
@@ -22,7 +22,8 @@ export class YoutubeCommentsSentimentComponent {
         var videoId = url.searchParams.get("v");
         this.safeEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/" + videoId);
         this.youtubeCommentsSentimentService.getSentiment(videoId).subscribe(result => {
-            this.youtubeComments = result;
+            this.averageSentiment = result;
+            console.log(this.averageSentiment);
         }, error => console.error(error));
     }
 }

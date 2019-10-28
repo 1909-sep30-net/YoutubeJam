@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { YoutubeComment } from './youtube-comment';
+import { AverageSentiment } from './average-sentiment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +11,6 @@ export class YoutubeCommentsSentimentService {
     }
 
     getSentiment(videoId: string) {
-        return this.http.get<YoutubeComment[]>(this.baseUrl + 'sentiment', { params: new HttpParams().set("videoId", videoId) });
+        return this.http.get<AverageSentiment>(this.baseUrl + 'sentiment', { params: new HttpParams().set("videoId", videoId) });
     }
 }

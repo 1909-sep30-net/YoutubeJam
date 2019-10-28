@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
-using SentimentAnalysis;
+using YoutubeJam.Auth;
 
 namespace YoutubeJam.BusinessLogic
 {
-    class SentimentAnalysis
+    public class SentimentAnalysis
     {
 
         private const string key_var = "TEXT_ANALYTICS_SUBSCRIPTION_KEY";
-        private static readonly string subscriptionKey = Environment.GetEnvironmentVariable(key_var);
-
+        //private static readonly string subscriptionKey = Environment.GetEnvironmentVariable(key_var);
+        private static readonly string subscriptionKey = "be6e6df747a54718939279d9a26640ef";
         private const string endpoint_var = "TEXT_ANALYTICS_ENDPOINT";
-        private static readonly string endpoint = Environment.GetEnvironmentVariable(endpoint_var);
+        //private static readonly string endpoint = Environment.GetEnvironmentVariable(endpoint_var);
+        private static readonly string endpoint = "https://youtubejam.cognitiveservices.azure.com/";
 
-        static int noOfComments = 1;
+        public static List<double> generalScore = new List<double>();
 
         static SentimentAnalysis()
         {
@@ -28,7 +29,7 @@ namespace YoutubeJam.BusinessLogic
             }
         }
 
-        static void SelectComments()
+        public static double SelectComments(string inputComment)
         {
             ApiKeyServiceClientCredentials credentials = new ApiKeyServiceClientCredentials(subscriptionKey);
             TextAnalyticsClient client = new TextAnalyticsClient(credentials)
@@ -36,22 +37,11 @@ namespace YoutubeJam.BusinessLogic
                 Endpoint = endpoint
             };
 
-            string inputComment = ""; //Get A Single Comment From The YoutubeDataAPI
-            
-            List<double> generalScore = new List<double>();
-
-            for (int i = 0; i < noOfComments; i++)
-            {
-                generalScore.Add(AnalyzeComment(client, inputComment));
-            }
-
-        }
-
-        static double AnalyzeComment(TextAnalyticsClient client, string inputComment)
-        {
             var result = client.Sentiment(inputComment, "en");
 
-            return (double) result.Score;
+            return (double)result.Score;
+
+
         }
 
     }

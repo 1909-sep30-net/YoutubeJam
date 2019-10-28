@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Rest;
 
-namespace SentimentAnalysis
+namespace YoutubeJam.Auth
 {
     public class ApiKeyServiceClientCredentials : ServiceClientCredentials
     {
