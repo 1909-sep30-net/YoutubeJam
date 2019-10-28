@@ -6,12 +6,12 @@ namespace YoutubeJam.Auth
 {
     public static class YoutubeDataAPIAuth
     {
-        private static string _youtubeDataApiKey = "AIzaSyDJB8DOsIR_cmSFZlok1XE-p-jmflLcrFs";
+        public static string YoutubeDataAPIKey;
         private static string _applicationName = "YoutubeJAM";
 
-        private static string GetYoutubeDataAPIKey()
+        public static string GetYoutubeDataAPIKey()
         {
-            return _youtubeDataApiKey;
+            return YoutubeDataAPIKey;
         }
 
         private static string GetApplicationName()
