@@ -10,6 +10,7 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <UserSecretsId>6ecf07e2-bc7d-4843-bc15-2ca2475fb95b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,8 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\comments-sentiment-table\comments-sentiment-table.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YoutubeJam.Auth\YoutubeJam.Auth.csproj" />
     <ProjectReference Include="..\YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\comments-sentiment-table\comments-sentiment-table.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

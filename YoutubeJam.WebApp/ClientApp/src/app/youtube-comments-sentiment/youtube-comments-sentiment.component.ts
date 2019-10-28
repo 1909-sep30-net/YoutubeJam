@@ -1,20 +1,28 @@
 import { Component } from '@angular/core';
-import { Sentiment } from './sentiment';
-import { YoutubeCommentsSentimentService } from './youtube-comments-sentiment.service'
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { YoutubeComment } from './youtube-comment';
+import { YoutubeCommentsSentimentService } from './youtube-comments-sentiment.service';
 
 @Component({
     selector: 'youtube-comments-sentiment',
-    templateUrl: './youtube-comments-sentiment.component.html'
+    templateUrl: './youtube-comments-sentiment.component.html',
+    styleUrls: ['./youtube-comments-sentiment.component.css']
 })
 export class YoutubeCommentsSentimentComponent {
-    public sentiment: Sentiment;
+    safeEmbedUrl: SafeResourceUrl;
+    youtubeComments: YoutubeComment[];
 
-    constructor(private youtubeCommentsSentimentService: YoutubeCommentsSentimentService) {
+    constructor(
+        private youtubeCommentsSentimentService: YoutubeCommentsSentimentService,
+        private sanitizer: DomSanitizer) {
     }
 
-    getCommentsSentiment(videoId: string) {
+    getCommentsSentiment(videoText: string) {
+        var url = new URL(videoText);
+        var videoId = url.searchParams.get("v");
+        this.safeEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/" + videoId);
         this.youtubeCommentsSentimentService.getSentiment(videoId).subscribe(result => {
-            this.sentiment = result;
+            this.youtubeComments = result;
         }, error => console.error(error));
     }
 }

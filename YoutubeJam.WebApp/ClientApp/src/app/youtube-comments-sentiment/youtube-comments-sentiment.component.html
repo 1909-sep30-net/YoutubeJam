@@ -1,6 +1,22 @@
 <h1 id="tableLabel">Youtube Comments Sentiment</h1>
-
-<input type="text" placeholder="Video ID" #videoId />
-<button class="btn btn-primary" (click)="getCommentsSentiment(videoId.value)">Get Comments Sentiment</button>
-
-<p *ngIf="sentiment">{{ sentiment.summary }}</p>
+<hr />
+<div class="input-group mb-3">
+  <input #videoText type="text" class="form-control" placeholder="Youtube Video URL" aria-label="Video URL" aria-describedby="Video URL">
+  <div class="input-group-append">
+    <button class="btn btn-primary" (click)="getCommentsSentiment(videoText.value)">Analyze Sentiment</button>
+  </div>
+</div>
+<hr />
+<div *ngIf="safeEmbedUrl && youtubeComments">
+  <div class="center">
+    <h2>Youtube Video</h2>
+  </div>
+  <iframe width="100%" height="400" [src]="safeEmbedUrl" frameborder="0" allowfullscreen></iframe>
+  <hr />
+  <div>
+    <div class="center">
+      <h2>Comment Analysis</h2>
+    </div>
+    <comments-sentiment-table [youtubeComments]="youtubeComments"></comments-sentiment-table>
+  </div>
+</div>
