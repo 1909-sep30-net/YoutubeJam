@@ -1,48 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
-using Microsoft.Rest;
-using System.Net.Http;
-using System.Web;
-using YoutubeJam.Auth;
+using SentimentAnalysis;
 
 namespace YoutubeJam.BusinessLogic
 {
-    
-    static class SentimentAnalysis
+    class SentimentAnalysis
     {
 
+        private const string key_var = "TEXT_ANALYTICS_SUBSCRIPTION_KEY";
+        private static readonly string subscriptionKey = Environment.GetEnvironmentVariable(key_var);
 
-        public static void AuthenticateAnalysis()
+        private const string endpoint_var = "TEXT_ANALYTICS_ENDPOINT";
+        private static readonly string endpoint = Environment.GetEnvironmentVariable(endpoint_var);
+
+        static int noOfComments = 1;
+
+        static SentimentAnalysis()
         {
-            var credentials = new AzureTextAnalyticsAuth();
-            var credentialsX = new ApiKeyServiceClientCredentials(subscriptionKey);
+            if (null == subscriptionKey)
+            {
+                throw new Exception("Please set/export the environment variable: " + key_var);
+            }
+            if (null == endpoint)
+            {
+                throw new Exception("Please set/export the environment variable: " + endpoint_var);
+            }
+        }
 
-
-            string apiKey = credentials.GetAPIKey();
-            string endpoint = credentials.GetEndPoint();
-
-            TextAnalyticsClient client = new TextAnalyticsClient()
+        static void SelectComments()
+        {
+            ApiKeyServiceClientCredentials credentials = new ApiKeyServiceClientCredentials(subscriptionKey);
+            TextAnalyticsClient client = new TextAnalyticsClient(credentials)
             {
                 Endpoint = endpoint
             };
 
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            SentimentAnalysisExample(client);
-            // languageDetectionExample(client);
-            // entityRecognitionExample(client);
-            // KeyPhraseExtractionExample(client);
+            string inputComment = ""; //Get A Single Comment From The YoutubeDataAPI
+            
+            List<double> generalScore = new List<double>();
+
+            for (int i = 0; i < noOfComments; i++)
+            {
+                generalScore.Add(AnalyzeComment(client, inputComment));
+            }
+
         }
 
-
-        static void SentimentAnalysisExample(TextAnalyticsClient client)
+        static double AnalyzeComment(TextAnalyticsClient client, string inputComment)
         {
-            var result = client.Sentiment("I had the best day of my life.", "en");
-            Console.WriteLine($"Sentiment Score: {result.Score:0.00}");
+            var result = client.Sentiment(inputComment, "en");
+
+            return (double) result.Score;
         }
 
     }
-   
-}	
+}

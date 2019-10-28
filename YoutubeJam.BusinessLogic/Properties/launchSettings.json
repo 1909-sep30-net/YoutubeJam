@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "YoutubeJam.BusinessLogic": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "TEXT_ANALYTICS_ENDPOINT": "https://youtubejam.cognitiveservices.azure.com/",
+        "TEXT_ANALYTICS_SUBSCRIPTION_KEY": "be6e6df747a54718939279d9a26640ef"
+      }
+    }
+  }
+}
