@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using YoutubeJam.Auth;
+using YoutubeJam.Persistence.Entities;
 
 namespace YoutubeJam.WebApp
 {
@@ -26,6 +28,7 @@ namespace YoutubeJam.WebApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddDbContext<YouTubeJamContext>(options => options.UseNpgsql(Configuration.GetConnectionString("YoutubeJam")));
             YoutubeDataAPIAuth.YoutubeDataAPIKey = Configuration["YoutubeDataAPIKey"];
         }
 
