@@ -43,10 +43,14 @@ steps:
 - task: SonarCloudPublish@1
   displayName: Publish code analysis
 
-
-
-- task: AzureRmWebAppDeployment@4
+- task: DotNetCoreCLI@2
   displayName: dotnet publish + zip
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    zipAfterPublish: true
+- task: AzureRmWebAppDeployment@4
+  displayName: app service deploy 
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Free Trial(cb0d2e9c-c632-4eec-93d0-d1e5f9589605)'
@@ -54,9 +58,3 @@ steps:
     WebAppName: 'YouTubeJam'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
 
-- task: DotNetCoreCLI@2
-  displayName: app service deploy
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    zipAfterPublish: true
