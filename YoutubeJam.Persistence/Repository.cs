@@ -8,7 +8,7 @@ namespace YoutubeJam.Persistence
     public class Repository : BL.IRepository
     {
         private readonly YouTubeJamContext _context;
-        private IMapper _map;
+        private readonly IMapper _map;
 
         public Repository(YouTubeJamContext context, IMapper map)
         {

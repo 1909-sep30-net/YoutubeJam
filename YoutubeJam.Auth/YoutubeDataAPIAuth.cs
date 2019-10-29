@@ -6,26 +6,17 @@ namespace YoutubeJam.Auth
 {
     public static class YoutubeDataAPIAuth
     {
-        public static string YoutubeDataAPIKey;
-        private static string _applicationName = "YoutubeJAM";
+        private static readonly string _applicationName = "YoutubeJAM";
 
-        public static string GetYoutubeDataAPIKey()
-        {
-            return YoutubeDataAPIKey;
-        }
-
-        private static string GetApplicationName()
-        {
-            return _applicationName;
-        }
+        public static string YoutubeDataAPIKey { get; set; }
 
         private static YouTubeService GetYoutubeService()
         {
             // Return a new Youtube Service with the API key and the application name
             return new YouTubeService(new BaseClientService.Initializer()
             {
-                ApiKey = GetYoutubeDataAPIKey(),
-                ApplicationName = GetApplicationName()
+                ApiKey = YoutubeDataAPIKey,
+                ApplicationName = _applicationName
             });
         }
 

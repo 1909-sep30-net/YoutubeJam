@@ -18,13 +18,13 @@ namespace YoutubeJam.Persistence
             };
         }
 
-        public BL.Creator ParseCreator(Creator item)
+        public BL.Creator ParseCreator(Creator creator)
         {
             return new BL.Creator()
             {
-                FirstName = item.FirstName,
-                LastName = item.LastName,
-                PhoneNumber = item.PhoneNumber
+                FirstName = creator.FirstName,
+                LastName = creator.LastName,
+                PhoneNumber = creator.PhoneNumber
             };
         }
     }
