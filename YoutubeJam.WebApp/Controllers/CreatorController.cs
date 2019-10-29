@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace YoutubeJam.WebApp.Controllers
 { /// <summary>
-/// Adding a creator (signup) 
-/// </summary>
+/// Adding a creator (signup) </summary>
     public class CreatorController : Controller
     {
         // GET: Creator

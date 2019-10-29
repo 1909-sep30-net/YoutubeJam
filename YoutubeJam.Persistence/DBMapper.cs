@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
-using YoutubeJam.Persistence.Entities;
+
 namespace YoutubeJam.Persistence
 {
     /// <summary>
@@ -19,7 +17,6 @@ namespace YoutubeJam.Persistence
                 PhoneNumber = creator.PhoneNumber
             };
         }
-
 
         public BL.Creator ParseCreator(Creator item)
         {

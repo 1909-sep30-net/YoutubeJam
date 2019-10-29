@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BL = YoutubeJam.BusinessLogic;
-using YoutubeJam.Persistence.Entities;
+﻿using System.Collections.Generic;
 using System.Linq;
+using YoutubeJam.Persistence.Entities;
+using BL = YoutubeJam.BusinessLogic;
 
 namespace YoutubeJam.Persistence
 {
@@ -11,13 +9,13 @@ namespace YoutubeJam.Persistence
     {
         private readonly YouTubeJamContext _context;
         private IMapper _map;
-        
+
         public Repository(YouTubeJamContext context, IMapper map)
         {
             _context = context;
             _map = map;
         }
-       
+
         public void AddCreator(BL.Creator c)
         {
             _context.Creator.Add(_map.ParseCreator(c));
