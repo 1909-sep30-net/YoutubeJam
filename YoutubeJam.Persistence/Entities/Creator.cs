@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YoutubeJam.Persistence.Entities
 {
@@ -8,6 +9,9 @@ namespace YoutubeJam.Persistence.Entities
     public class Creator
     {
         [Key]
+        public int CID { get; set; }
+
+        [Index(IsUnique = true)]
         public long PhoneNumber { get; set; }
 
         public string FirstName { get; set; }
