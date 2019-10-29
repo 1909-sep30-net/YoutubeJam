@@ -6,6 +6,7 @@ namespace YoutubeJam.BusinessLogic
     {
         public double AverageSentimentScore { get; set; }
 
+        public string VideoURL { get; set; }
         public IList<YoutubeComment> CommentList { get; set; } = new List<YoutubeComment>();
     }
 }
