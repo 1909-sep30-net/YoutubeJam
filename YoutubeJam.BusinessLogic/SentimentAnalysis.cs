@@ -9,12 +9,10 @@ namespace YoutubeJam.BusinessLogic
     {
 
         private const string key_var = "TEXT_ANALYTICS_SUBSCRIPTION_KEY";
-        //private static readonly string subscriptionKey = Environment.GetEnvironmentVariable(key_var);
-        private static readonly string subscriptionKey = "be6e6df747a54718939279d9a26640ef";
+        private static readonly string subscriptionKey = Environment.GetEnvironmentVariable(key_var);
         private const string endpoint_var = "TEXT_ANALYTICS_ENDPOINT";
-        //private static readonly string endpoint = Environment.GetEnvironmentVariable(endpoint_var);
-        private static readonly string endpoint = "https://youtubejam.cognitiveservices.azure.com/";
-
+        private static readonly string endpoint = Environment.GetEnvironmentVariable(endpoint_var);
+       
         public static List<double> generalScore = new List<double>();
 
         static SentimentAnalysis()
