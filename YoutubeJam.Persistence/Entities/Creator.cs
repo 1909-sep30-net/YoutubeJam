@@ -12,7 +12,7 @@ namespace YoutubeJam.Persistence.Entities
         public int CID { get; set; }
 
         [Index(IsUnique = true)]
-        public long PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
