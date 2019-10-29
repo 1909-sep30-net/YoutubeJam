@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using YoutubeJam.Auth;
 using YoutubeJam.BusinessLogic;
-using System.Linq;
 
 namespace YoutubeJam.WebApp.Controllers
 {
@@ -40,7 +39,6 @@ namespace YoutubeJam.WebApp.Controllers
 
         private AverageSentiment ParseCommentThreadListResponse(CommentThreadListResponse commentThreadListResponse)
         {
-
             // Construct the empty parsed comment threads list
             AverageSentiment averageScore = new AverageSentiment();
 

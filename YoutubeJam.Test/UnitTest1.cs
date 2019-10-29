@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace YoutubeJam.Test
@@ -8,7 +7,6 @@ namespace YoutubeJam.Test
         [Fact]
         public void Test1()
         {
-
         }
     }
 }
