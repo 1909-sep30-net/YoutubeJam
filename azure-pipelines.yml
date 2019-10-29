@@ -3,15 +3,44 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 trigger:
-- angad
+- master
 
 
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  buildConfiguration: 'Release'
+  
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'Project2'
+    organization: 'mtnolasco1'
+    scannerMode: 'MSBuild'
+    projectKey: 'YoutubeJam'
+    projectName: 'YoutubeJam'
+    extraProperties: |
+      sonar.exclusions = **/lib/**
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet test
+  inputs:
+    command: 'test'
+    arguments: '-c $(buildConfiguration) --collect "XPlat Code Coverage"'
+
+- task: PublishCodeCoverageResults@1
+  displayName: Publish code coverage
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Agent.TempDirectory)/*/coverage.cobertura.xml'
+- task: SonarCloudAnalyze@1
+  displayName: Run code analysis
+
+- task: SonarCloudPublish@1
+  displayName: Publish code analysis
 
 - task: DotNetCoreCLI@2
   displayName: dotnet publish + zip
@@ -19,3 +48,11 @@ steps:
     command: 'publish'
     publishWebProjects: true
     zipAfterPublish: true
+- task: AzureRmWebAppDeployment@4
+  displayName: app service deploy 
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Free Trial(cb0d2e9c-c632-4eec-93d0-d1e5f9589605)'
+    appType: 'webApp'
+    WebAppName: 'YouTubeJam'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
