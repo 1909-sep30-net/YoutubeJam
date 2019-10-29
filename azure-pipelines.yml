@@ -22,7 +22,6 @@ steps:
     projectName: 'YoutubeJam'
     extraProperties: |
       sonar.exclusions = **/lib/**
-
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
@@ -57,4 +56,3 @@ steps:
     appType: 'webApp'
     WebAppName: 'YouTubeJam'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-
