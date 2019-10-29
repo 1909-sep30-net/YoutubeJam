@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Rest;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Rest;
 
 namespace YoutubeJam.Auth
 {
     public class ApiKeyServiceClientCredentials : ServiceClientCredentials
     {
-
         private readonly string apiKey;
 
         public ApiKeyServiceClientCredentials(string apiKey)
@@ -26,6 +24,5 @@ namespace YoutubeJam.Auth
             request.Headers.Add("Ocp-Apim-Subscription-Key", this.apiKey);
             return base.ProcessHttpRequestAsync(request, cancellationToken);
         }
-
     }
 }

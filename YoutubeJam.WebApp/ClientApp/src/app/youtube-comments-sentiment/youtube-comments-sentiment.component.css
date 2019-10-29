@@ -2,3 +2,7 @@ div.center {
   display: flex;
   justify-content: center;
 }
+
+iframe {
+  border: 0
+}

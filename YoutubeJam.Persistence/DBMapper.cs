@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
-using YoutubeJam.Persistence.Entities;
+
 namespace YoutubeJam.Persistence
 {
     /// <summary>
@@ -20,14 +18,13 @@ namespace YoutubeJam.Persistence
             };
         }
 
-
-        public BL.Creator ParseCreator(Creator item)
+        public BL.Creator ParseCreator(Creator creator)
         {
             return new BL.Creator()
             {
-                FirstName = item.FirstName,
-                LastName = item.LastName,
-                PhoneNumber = item.PhoneNumber
+                FirstName = creator.FirstName,
+                LastName = creator.LastName,
+                PhoneNumber = creator.PhoneNumber
             };
         }
     }

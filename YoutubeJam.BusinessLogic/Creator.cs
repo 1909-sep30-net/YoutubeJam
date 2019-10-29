@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeJam.BusinessLogic
+﻿namespace YoutubeJam.BusinessLogic
 {
     /// <summary>
     /// This is a class for our end users i.e the youtube content creators

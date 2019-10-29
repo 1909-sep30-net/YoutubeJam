@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BL = YoutubeJam.BusinessLogic;
-using YoutubeJam.Persistence.Entities;
+﻿using System.Collections.Generic;
 using System.Linq;
+using YoutubeJam.Persistence.Entities;
+using BL = YoutubeJam.BusinessLogic;
 
 namespace YoutubeJam.Persistence
 {
     public class Repository : BL.IRepository
     {
         private readonly YouTubeJamContext _context;
-        private IMapper _map;
-        
+        private readonly IMapper _map;
+
         public Repository(YouTubeJamContext context, IMapper map)
         {
             _context = context;
             _map = map;
         }
-       
+
         public void AddCreator(BL.Creator c)
         {
             _context.Creator.Add(_map.ParseCreator(c));

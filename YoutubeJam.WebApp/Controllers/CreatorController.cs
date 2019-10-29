@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace YoutubeJam.WebApp.Controllers
 { /// <summary>
-/// Adding a creator (signup) 
-/// </summary>
+/// Adding a creator (signup) </summary>
     public class CreatorController : Controller
     {
         // GET: Creator
@@ -36,8 +31,6 @@ namespace YoutubeJam.WebApp.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -59,8 +52,6 @@ namespace YoutubeJam.WebApp.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -82,8 +73,6 @@ namespace YoutubeJam.WebApp.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction(nameof(Index));
             }
             catch
