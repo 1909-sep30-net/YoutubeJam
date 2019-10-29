@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.CognitiveServices.Language.TextAnalytics;
 using System;
-using System.Collections.Generic;
 using YoutubeJam.Auth;
 
 namespace YoutubeJam.BusinessLogic
