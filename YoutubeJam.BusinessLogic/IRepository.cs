@@ -13,6 +13,6 @@ namespace YoutubeJam.BusinessLogic
         public void AddVideo(string videourl);
 
         public void AddAnalysis(AverageSentiment sentimentAverage, Creator c);
-        
+        public List<AverageSentiment> GetAnalysisHistory(string videourl, Creator c);
     }
 }
