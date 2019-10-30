@@ -3,23 +3,26 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:56135",
-      "sslPort": 44345
+      "applicationUrl": "http://localhost:62479",
+      "sslPort": 44374
     }
   },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "TEXT_ANALYTICS_ENDPOINT": "https://youtubejam.cognitiveservices.azure.com/",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "TEXT_ANALYTICS_SUBSCRIPTION_KEY": "be6e6df747a54718939279d9a26640ef"
       }
     },
-    "YoutubeJam.WebApp": {
+    "YoutubeJam.Api": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

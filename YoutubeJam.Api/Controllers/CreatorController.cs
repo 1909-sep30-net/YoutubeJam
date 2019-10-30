@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace YoutubeJam.WebApp.Controllers
-{ /// <summary>
-/// Adding a creator (signup) </summary>
+{
+    /// <summary>
+    /// Adding a creator (signup)
+    /// </summary>
     public class CreatorController : Controller
     {
         // GET: Creator
