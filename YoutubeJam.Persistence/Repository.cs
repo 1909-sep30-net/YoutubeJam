@@ -55,5 +55,11 @@ namespace YoutubeJam.Persistence
             }
             return allCreatorsfromDB;
         }
+
+        public BL.Creator LogIn(string phoneNumber, string passsword)
+        {
+            if (_context.Creator.Where(c => c.PhoneNumber == phoneNumber && c.Password == passsword).ToList().Count() != 1) throw new CreatorDoesNotExistException("Invalid phone or password");
+            return _map.ParseCreator( _context.Creator.Single(c => c.PhoneNumber == phoneNumber && c.Password == passsword));
+        }
     }
 }
