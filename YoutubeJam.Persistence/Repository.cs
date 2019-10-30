@@ -58,8 +58,8 @@ namespace YoutubeJam.Persistence
 
         public BL.Creator LogIn(string phoneNumber, string passsword)
         {
-            if (_context.Creator.Where(c => c.PhoneNumber == phoneNumber && c.Password == passsword).ToList().Count() == 0) throw new CreatorDoesNotExistException("Invalid phone or password");
-            return _map.ParseCreator( _context.Creator.Single(c => c.PhoneNumber == phoneNumber && c.Password == passsword));
+            if (_context.Creator.Any(c => c.PhoneNumber == phoneNumber && c.Password == passsword)) throw new CreatorDoesNotExistException("Invalid phone or password");
+            return _map.ParseCreator(_context.Creator.Single(c => c.PhoneNumber == phoneNumber && c.Password == passsword));
         }
     }
 }

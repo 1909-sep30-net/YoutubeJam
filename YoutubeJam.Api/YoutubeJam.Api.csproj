@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\YoutubeJam.Auth\YoutubeJam.Auth.csproj" />
     <ProjectReference Include="..\YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj" />
     <ProjectReference Include="..\YoutubeJam.Persistence\YoutubeJam.Persistence.csproj" />

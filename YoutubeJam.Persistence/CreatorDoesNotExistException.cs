@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace YoutubeJam.Persistence
 {
     [Serializable]
-    internal class CreatorDoesNotExistException : Exception
+    public class CreatorDoesNotExistException : Exception
     {
         public CreatorDoesNotExistException()
         {
