@@ -54,6 +54,7 @@ namespace YoutubeJam.WebApp.Controllers
             }
 
             averageScore.AverageSentimentScore = averageScore.CommentList.Average(c => c.SentimentScore);
+            averageScore.VideoURL = commentThreadListResponse.Items[0].Snippet.VideoId;
 
             // Return the parsed comment threads list
             return averageScore;
