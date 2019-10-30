@@ -10,7 +10,7 @@ export class YoutubeCommentsSentimentService {
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     }
 
-    getSentiment(videoId: string) {
-        return this.http.get<AverageSentiment>(this.baseUrl + 'sentiment', { params: new HttpParams().set("videoId", videoId) });
+    getSentiment(videoId: string, maxComments: number) {
+        return this.http.get<AverageSentiment>(this.baseUrl + 'sentiment', { params: new HttpParams().set("videoId", videoId).set("maxComments", maxComments.toString()) });
     }
 }
