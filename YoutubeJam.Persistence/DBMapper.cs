@@ -10,7 +10,7 @@ namespace YoutubeJam.Persistence
     /// </summary>
     public class DBMapper : IMapper
     {
-        private YouTubeJamContext _context;
+        private readonly YouTubeJamContext _context;
         public DBMapper(YouTubeJamContext context)
         {
             _context = context;
