@@ -22,6 +22,7 @@ steps:
     projectName: 'YoutubeJam'
     extraProperties: |
       sonar.exclusions = **/lib/**
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
@@ -30,7 +31,6 @@ steps:
   inputs:
     command: 'test'
     arguments: '-c $(buildConfiguration) --collect "XPlat Code Coverage"'
-    
 - task: PublishCodeCoverageResults@1
   displayName: Publish code coverage
   inputs:
