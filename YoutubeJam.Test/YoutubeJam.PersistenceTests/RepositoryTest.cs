@@ -9,6 +9,41 @@ namespace YoutubeJam.Test
 {
     public class RepositoryTest
     {
+        /// <summary>
+        /// Testing if creators are added to database
+        /// </summary>
+        [Fact]
+        public void AddCreatorsShouldAddCreators()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddAnalysisShouldAdd")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Password = "Password",
+                PhoneNumber = "(510) 289 8893"
+            };
+
+            //act
+            repo.AddCreator(c);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            var rest = assertContext.Creator.Select(c => c);
+            Assert.NotNull(rest);
+
+        }
+        /// <summary>
+        /// Tests the adding a video to the database
+        /// </summary>
         [Fact]
         public void AddVideoShouldAddVideo()
         {
@@ -32,7 +67,9 @@ namespace YoutubeJam.Test
 
             Assert.NotNull(rest);
         }
-
+        /// <summary>
+        /// Tests if analysis can be stored in db
+        /// </summary>
         [Fact]
         public void AddAnalysisShouldAdd()
         {
@@ -70,6 +107,9 @@ namespace YoutubeJam.Test
             Assert.NotNull(rest);
 
         }
+        /// <summary>
+        /// Tests if analysis is stored properly (i.e. now new instances of creators are created)
+        /// </summary>
         [Fact]
         public void AddAnalysisShouldNotCreateNewCreators()
         {
@@ -112,13 +152,16 @@ namespace YoutubeJam.Test
                 Assert.True(true);
             }
         }
+        /// <summary>
+        /// Tests if adding analysis works properly (i.e. new videos aren't created)
+        /// </summary>
         [Fact]
 
         public void AddAnalysisShouldNotCreateNewVideos()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
-                .UseInMemoryDatabase("AddAnalysisShouldNotCreateNewCreators")
+                .UseInMemoryDatabase("AddAnalysisShouldNotCreateNewVideos")
                 .Options;
 
             using var context = new YouTubeJamContext(options);
