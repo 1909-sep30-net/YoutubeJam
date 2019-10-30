@@ -197,5 +197,43 @@ namespace YoutubeJam.Test
             }
 
         }
+        [Fact]
+        public void GetAnalHistoryShouldGetSomething()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("GetAnalHistoryShouldReturnSomething")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Password = "Password",
+                PhoneNumber = "(510) 289 8893"
+            };
+
+            AverageSentiment avg = new AverageSentiment()
+            {
+                VideoURL = "Abc",
+                AverageSentimentScore = 0.5
+            };
+
+            //act
+            repo.AddVideo("Abc");
+            repo.AddCreator(c);
+            repo.AddAnalysis(avg, c);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            mapper = new DBMapper(assertContext);
+            repo = new Repository(assertContext, mapper);
+            var result = repo.GetAnalysisHistory("Abc", c);
+            Assert.NotNull(result);
+        }
     }
 }

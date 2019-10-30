@@ -34,6 +34,13 @@ namespace YoutubeJam.Persistence
             _context.SaveChanges();
         }
 
+        public List<BL.AverageSentiment> GetAnalysisHistory(string videourl, BL.Creator c)
+        {
+            List<BL.AverageSentiment> analHist = new List<BL.AverageSentiment>();
+            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.PhoneNumber == c.PhoneNumber).ToList();
+            return analHist;
+        }
+
         public List<BL.Creator> GetCreators()
         {
             List<Creator> allCreators = _context.Creator.Select(c => c).ToList();
