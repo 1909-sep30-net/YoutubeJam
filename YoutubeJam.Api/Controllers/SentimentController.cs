@@ -12,7 +12,7 @@ namespace YoutubeJam.WebApp.Controllers
     /// The controller for YoutubeJAM sentiment API
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SentimentController : ControllerBase
     {
         private readonly ILogger<SentimentController> _logger;
