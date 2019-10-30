@@ -232,8 +232,8 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetAnalysisHistory("Abc", c);
-            Assert.NotNull(result);
+            var result = repo.GetAnalysisHistory("Abc", c).ToList();
+            Assert.True(result.Count()>0);
         }
     }
 }
