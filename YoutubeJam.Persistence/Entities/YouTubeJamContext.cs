@@ -7,6 +7,13 @@ namespace YoutubeJam.Persistence.Entities
     /// </summary>
     public class YouTubeJamContext : DbContext
     {
+        public YouTubeJamContext() 
+        {
+        }
+        public YouTubeJamContext(DbContextOptions<YouTubeJamContext> options)
+            : base(options)
+        {
+        }
         public DbSet<Creator> Creator { get; set; }
         public DbSet<Video> Video { get; set; }
 
@@ -54,9 +61,6 @@ namespace YoutubeJam.Persistence.Entities
             );
         }
 
-        public YouTubeJamContext(DbContextOptions<YouTubeJamContext> options)
-            : base(options)
-        {
-        }
+        
     }
 }

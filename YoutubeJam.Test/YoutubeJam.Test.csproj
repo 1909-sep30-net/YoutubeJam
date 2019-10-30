@@ -13,6 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
@@ -28,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj" />
+    <ProjectReference Include="..\YoutubeJam.Persistence\YoutubeJam.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
