@@ -29,9 +29,8 @@ steps:
   displayName: dotnet test
   inputs:
     command: 'test'
-    arguments: '-c $(buildConfiguration) --collect "XPlat Code Coverage"'
+    arguments: '-c $(buildConfiguration) --logger xml --collect "XPlat Code Coverage"'
 
-- script: dotnet test <test-project> --logger xml --collect "XPlat Code coverage"
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'XUnit'
