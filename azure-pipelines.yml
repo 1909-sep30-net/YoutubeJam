@@ -30,7 +30,7 @@ steps:
   displayName: dotnet test
   inputs:
     command: 'test'
-    arguments: '-configuration $(buildConfiguration) --collect "XPlat Code Coverage"'
+    arguments: '--configuration $(buildConfiguration) --collect "XPlat Code Coverage"'
 - task: PublishCodeCoverageResults@1
   displayName: Publish code coverage
   inputs:
