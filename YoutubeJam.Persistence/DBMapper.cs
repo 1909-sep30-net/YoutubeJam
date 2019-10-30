@@ -26,6 +26,14 @@ namespace YoutubeJam.Persistence
 
             };
         }
+        public BL.AverageSentiment ParseAnalysis(Analysis1 item)
+        {
+            return new BL.AverageSentiment()
+            {
+                AverageSentimentScore = (double)item.SentAve,
+                AnalysisDate = item.AnalDate
+            };
+        }
 
         private Creator GetCreatorByPhoneNumber(string phoneNumber)
         {
@@ -67,13 +75,6 @@ namespace YoutubeJam.Persistence
             };
         }
 
-        public BL.AverageSentiment ParseAnalysis(Analysis1 item)
-        {
-            return new BL.AverageSentiment()
-            {
-                AverageSentimentScore = (double)item.SentAve,
-                AnalysisDate = item.AnalDate
-            };
-        }
+        
     }
 }
