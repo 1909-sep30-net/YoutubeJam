@@ -38,6 +38,10 @@ namespace YoutubeJam.Persistence
         {
             List<BL.AverageSentiment> analHist = new List<BL.AverageSentiment>();
             List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.PhoneNumber == c.PhoneNumber).ToList();
+            foreach (Analysis1 item in analHistfromDB)
+            {
+                analHist.Add(_map.ParseAnalysis(item));
+            }
             return analHist;
         }
 

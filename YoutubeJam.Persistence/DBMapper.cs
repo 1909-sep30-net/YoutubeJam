@@ -66,5 +66,14 @@ namespace YoutubeJam.Persistence
                 URL = videourl
             };
         }
+
+        public BL.AverageSentiment ParseAnalysis(Analysis1 item)
+        {
+            return new BL.AverageSentiment()
+            {
+                AverageSentimentScore = (double)item.SentAve,
+                AnalysisDate = item.AnalDate
+            };
+        }
     }
 }
