@@ -46,11 +46,11 @@ steps:
     command: 'publish'
     publishWebProjects: true
     zipAfterPublish: true
+
 - task: AzureRmWebAppDeployment@4
-  displayName: app service deploy 
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Free Trial(cb0d2e9c-c632-4eec-93d0-d1e5f9589605)'
     appType: 'webApp'
-    WebAppName: 'YouTubeJam'
+    WebAppName: 'YouTubeJamAPI'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
