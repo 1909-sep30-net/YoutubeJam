@@ -31,6 +31,12 @@ steps:
     command: 'test'
     arguments: '-c $(buildConfiguration) --collect "XPlat Code Coverage"'
 
+- task: PublishTestResults@2
+  displayName: Publish test results
+  inputs:
+    testResultsFormat: 'XUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    
 - task: PublishCodeCoverageResults@1
   displayName: Publish code coverage
   inputs:
