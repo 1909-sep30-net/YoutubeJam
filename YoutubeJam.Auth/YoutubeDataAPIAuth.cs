@@ -20,14 +20,14 @@ namespace YoutubeJam.Auth
             });
         }
 
-        public static CommentThreadListResponse GetCommentThreadListResponse(string videoId)
+        public static CommentThreadListResponse GetCommentThreadListResponse(string videoId, int maxComments)
         {
             // Initialize the youtube service with the API key
             YouTubeService youtubeService = GetYoutubeService();
 
             // Construct the request
             CommentThreadsResource.ListRequest commentThreadsListRequest = youtubeService.CommentThreads.List("snippet");
-            commentThreadsListRequest.MaxResults = 10;
+            commentThreadsListRequest.MaxResults = maxComments;
             commentThreadsListRequest.TextFormat = CommentThreadsResource.ListRequest.TextFormatEnum.PlainText;
             commentThreadsListRequest.VideoId = videoId;
 

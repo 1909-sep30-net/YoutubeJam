@@ -14,6 +14,8 @@ namespace YoutubeJam.WebApp
 {
     public class Startup
     {
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,6 +27,7 @@ namespace YoutubeJam.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -33,7 +36,20 @@ namespace YoutubeJam.WebApp
             services.AddDbContext<YouTubeJamContext>(options => options.UseNpgsql(Configuration.GetConnectionString("YoutubeJam")));
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IMapper, DBMapper>();
+
+            // Set the youtube data api key
             YoutubeDataAPIAuth.YoutubeDataAPIKey = Configuration["YoutubeDataAPIKey"];
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins(
+                        "http://localhost:4200",
+                        "https://youtubejam.azurewebsites.net");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +67,8 @@ namespace YoutubeJam.WebApp
                 app.UseHsts();
             }
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
@@ -60,6 +78,7 @@ namespace YoutubeJam.WebApp
 
             app.UseRouting();
 
+            // Sets the default conventional routing
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -70,9 +89,7 @@ namespace YoutubeJam.WebApp
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core, see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
-
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
