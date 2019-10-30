@@ -16,9 +16,21 @@ namespace YoutubeJam.Persistence
             _map = map;
         }
 
+        public void AddAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
+        {
+            _context.Analysis1.Add(_map.ParseAnalysis(sentimentAverage, c));
+            _context.SaveChanges();
+        }
+
         public void AddCreator(BL.Creator c)
         {
             _context.Creator.Add(_map.ParseCreator(c));
+            _context.SaveChanges();
+        }
+
+        public void AddVideo(string videourl)
+        {
+            _context.Video.Add(_map.ParseVideo(videourl));
             _context.SaveChanges();
         }
 

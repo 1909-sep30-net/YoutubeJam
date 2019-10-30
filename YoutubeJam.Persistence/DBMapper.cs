@@ -1,4 +1,6 @@
-﻿using YoutubeJam.Persistence.Entities;
+﻿using System;
+using System.Linq;
+using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
 
 namespace YoutubeJam.Persistence
@@ -8,6 +10,35 @@ namespace YoutubeJam.Persistence
     /// </summary>
     public class DBMapper : IMapper
     {
+        private YouTubeJamContext _context;
+        public DBMapper(YouTubeJamContext context)
+        {
+            _context = context;
+        }
+        public Analysis1 ParseAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
+        {
+            return new Analysis1()
+            {
+                Creatr = GetCreatorByPhoneNumber(c.PhoneNumber),
+                Vid = GetVideoByURL(sentimentAverage.VideoURL),
+                AnalDate = DateTime.Now,
+                SentAve = (decimal) sentimentAverage.AverageSentimentScore
+
+            };
+        }
+
+        private Creator GetCreatorByPhoneNumber(string phoneNumber)
+        {
+            return _context.Creator.Single(c => c.PhoneNumber == phoneNumber);
+        }
+
+        private Video GetVideoByURL(string videoURL)
+        {
+            return _context.Video.Single(v => v.URL == videoURL);
+        }
+
+        
+
         public Creator ParseCreator(BL.Creator creator)
         {
             return new Creator()
@@ -25,6 +56,14 @@ namespace YoutubeJam.Persistence
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
                 PhoneNumber = creator.PhoneNumber
+            };
+        }
+
+        public Video ParseVideo(string videourl)
+        {
+            return new Video()
+            {
+                URL = videourl
             };
         }
     }

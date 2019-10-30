@@ -5,7 +5,7 @@
     /// </summary>
     public class Creator
     {
-        public long PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string FirstName { get; set; }
 
