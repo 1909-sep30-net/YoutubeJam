@@ -17,11 +17,11 @@ export class YoutubeCommentsSentimentComponent {
         private sanitizer: DomSanitizer) {
     }
 
-    getCommentsSentiment(videoText: string) {
+    getCommentsSentiment(videoText: string, maxComments: number) {
         var url = new URL(videoText);
         var videoId = url.searchParams.get("v");
         this.safeEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.sanitizer.sanitize(SecurityContext.URL, "https://www.youtube.com/embed/" + videoId));
-        this.youtubeCommentsSentimentService.getSentiment(videoId).subscribe(result => {
+        this.youtubeCommentsSentimentService.getSentiment(videoId, maxComments).subscribe(result => {
             this.averageSentiment = result;
             console.log(this.averageSentiment);
         }, error => console.error(error));
