@@ -15,6 +15,12 @@ namespace YoutubeJam.Api.Controllers
     [ApiController]
     public class CreatorController : ControllerBase
     {
+        private IRepository _repository;
+
+        public CreatorController(IRepository repository)
+        {
+            _repository = repository;
+        }
         // GET: api/Creator
         [HttpGet]
         public IEnumerable<BusinessLogic.Creator> Get(IEnumerable<BusinessLogic.Creator> creator)
@@ -33,14 +39,6 @@ namespace YoutubeJam.Api.Controllers
         [HttpPost]
         public void Post([FromBody] BusinessLogic.Creator inputCreator)
         {
-            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
-                .UseInMemoryDatabase("AddAnalysisShouldAdd")
-                .Options;
-
-            using var context = new YouTubeJamContext(options);
-            var mapper = new DBMapper(context);
-            var repo = new Repository(context, mapper);
-
             BusinessLogic.Creator creator = new BusinessLogic.Creator()
             {
                 FirstName = inputCreator.FirstName,
@@ -49,7 +47,7 @@ namespace YoutubeJam.Api.Controllers
                 PhoneNumber = inputCreator.PhoneNumber
             };
 
-            repo.AddCreator(creator);
+            _repository.AddCreator(creator);
 
         }
 
