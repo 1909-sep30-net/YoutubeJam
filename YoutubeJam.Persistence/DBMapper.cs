@@ -53,7 +53,8 @@ namespace YoutubeJam.Persistence
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                PhoneNumber = creator.PhoneNumber
+                PhoneNumber = creator.PhoneNumber,
+                Password = creator.Password
             };
         }
 
@@ -63,7 +64,8 @@ namespace YoutubeJam.Persistence
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                PhoneNumber = creator.PhoneNumber
+                PhoneNumber = creator.PhoneNumber,
+                Password = creator.Password
             };
         }
 

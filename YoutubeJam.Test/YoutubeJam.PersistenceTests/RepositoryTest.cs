@@ -235,5 +235,40 @@ namespace YoutubeJam.Test
             var result = repo.GetAnalysisHistory("Abc", c).ToList();
             Assert.True(result.Count()>0);
         }
+        [Fact]
+
+        public void LogInShouldLogIn()
+        {
+            //assert
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("LogInShouldLogIn")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            string phoneNumber = "(510) 289 8893";
+            string password = "Password";
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Password = password,
+                PhoneNumber = phoneNumber
+            };
+
+
+            //act
+            
+            repo.AddCreator(c);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            mapper = new DBMapper(assertContext);
+            repo = new Repository(assertContext, mapper);
+            var result = repo.LogIn(phoneNumber, password);
+            Assert.NotNull(result);
+        }
     }
 }
