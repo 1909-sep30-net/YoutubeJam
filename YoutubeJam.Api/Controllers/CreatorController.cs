@@ -34,7 +34,7 @@ namespace YoutubeJam.Api.Controllers
         {
             return "value";
         }
-
+        
         // POST: api/Creator
         [HttpPost]
         public void Post([FromBody] BusinessLogic.Creator inputCreator)
@@ -44,7 +44,8 @@ namespace YoutubeJam.Api.Controllers
                 FirstName = inputCreator.FirstName,
                 LastName = inputCreator.LastName,
                 Password = inputCreator.Password,
-                PhoneNumber = inputCreator.PhoneNumber
+                PhoneNumber = inputCreator.PhoneNumber,
+                Username = inputCreator.Username
             };
 
             _repository.AddCreator(creator);
