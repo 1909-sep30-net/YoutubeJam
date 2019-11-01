@@ -201,6 +201,9 @@ namespace YoutubeJam.Test
             }
 
         }
+        /// <summary>
+        /// Testing if the Analysis History can be retrieved
+        /// </summary>
         [Fact]
         public void GetAnalHistoryShouldGetSomething()
         {
@@ -240,6 +243,9 @@ namespace YoutubeJam.Test
             var result = repo.GetAnalysisHistory("Abc", c).ToList();
             Assert.True(result.Count()>0);
         }
+        /// <summary>
+        /// Testing the logging in functionality
+        /// </summary>
         [Fact]
 
         public void LogInShouldLogIn()
