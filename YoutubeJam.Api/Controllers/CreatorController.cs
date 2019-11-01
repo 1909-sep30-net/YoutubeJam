@@ -21,20 +21,24 @@ namespace YoutubeJam.Api.Controllers
         {
             _repository = repository;
         }
+
         // GET: api/Creator
         [HttpGet]
-        public IEnumerable<BusinessLogic.Creator> Get(IEnumerable<BusinessLogic.Creator> creator)
+        public IEnumerable<BusinessLogic.Creator> Get()
         {
-            return creator;
+            return _repository.GetCreators();
         }
 
         // GET: api/Creator/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public BusinessLogic.Creator Get(int id)
         {
-            return "value";
-        }
+            List<BusinessLogic.Creator> tempCreators = new List<BusinessLogic.Creator>();
+            tempCreators = _repository.GetCreators();
 
+            return tempCreators[id - 1];
+        }
+        
         // POST: api/Creator
         [HttpPost]
         public void Post([FromBody] BusinessLogic.Creator inputCreator)
@@ -44,7 +48,8 @@ namespace YoutubeJam.Api.Controllers
                 FirstName = inputCreator.FirstName,
                 LastName = inputCreator.LastName,
                 Password = inputCreator.Password,
-                PhoneNumber = inputCreator.PhoneNumber
+                PhoneNumber = inputCreator.PhoneNumber,
+                Username = inputCreator.Username
             };
 
             _repository.AddCreator(creator);
