@@ -17,26 +17,26 @@ namespace YoutubeJam.Api.Controllers
 
         // GET: api/Creator
         [HttpGet]
-        public IEnumerable<BusinessLogic.Creator> Get()
+        public IEnumerable<Creator> Get()
         {
             return _repository.GetCreators();
         }
 
         // GET: api/Creator/5
         [HttpGet("{id}", Name = "Get")]
-        public BusinessLogic.Creator Get(int id)
+        public Creator Get(int id)
         {
-            List<BusinessLogic.Creator> tempCreators = new List<BusinessLogic.Creator>();
+            List<Creator> tempCreators = new List<Creator>();
             tempCreators = _repository.GetCreators();
 
             return tempCreators[id - 1];
         }
-        
+
         // POST: api/Creator
         [HttpPost]
         public void Post([FromBody] Creator inputCreator)
         {
-            BusinessLogic.Creator creator = new BusinessLogic.Creator()
+            Creator creator = new Creator()
             {
                 FirstName = inputCreator.FirstName,
                 LastName = inputCreator.LastName,
