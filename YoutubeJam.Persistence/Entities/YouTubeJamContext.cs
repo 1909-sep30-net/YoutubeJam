@@ -37,6 +37,9 @@ namespace YoutubeJam.Persistence.Entities
 
                 entity.Property(c => c.LastName)
                 .IsRequired();
+
+                entity.Property(c => c.UserName)
+                .IsRequired();
             });
             modelBuilder.Entity<Video>(entity =>
                {
