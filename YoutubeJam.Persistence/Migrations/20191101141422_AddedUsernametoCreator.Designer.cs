@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using YoutubeJam.Persistence.Entities;
@@ -9,9 +10,10 @@ using YoutubeJam.Persistence.Entities;
 namespace YoutubeJam.Persistence.Migrations
 {
     [DbContext(typeof(YouTubeJamContext))]
-    partial class YouTubeJamContextModelSnapshot : ModelSnapshot
+    [Migration("20191101141422_AddedUsernametoCreator")]
+    partial class AddedUsernametoCreator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

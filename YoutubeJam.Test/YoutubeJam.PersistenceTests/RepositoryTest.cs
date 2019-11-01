@@ -29,7 +29,8 @@ namespace YoutubeJam.Test
                 FirstName = "Marielle",
                 LastName = "Nolasco",
                 Password = "Password",
-                PhoneNumber = "(510) 289 8893"
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
             };
 
             //act
@@ -87,7 +88,8 @@ namespace YoutubeJam.Test
                 FirstName = "Marielle",
                 LastName = "Nolasco",
                 Password = "Password",
-                PhoneNumber = "(510) 289 8893"
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -127,7 +129,8 @@ namespace YoutubeJam.Test
                 FirstName = "Marielle",
                 LastName = "Nolasco",
                 Password = "Password",
-                PhoneNumber = "(510) 289 8893"
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -173,7 +176,8 @@ namespace YoutubeJam.Test
                 FirstName = "Marielle",
                 LastName = "Nolasco",
                 Password = "Password",
-                PhoneNumber = "(510) 289 8893"
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -214,7 +218,8 @@ namespace YoutubeJam.Test
                 FirstName = "Marielle",
                 LastName = "Nolasco",
                 Password = "Password",
-                PhoneNumber = "(510) 289 8893"
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -255,7 +260,8 @@ namespace YoutubeJam.Test
                 FirstName = "Marielle",
                 LastName = "Nolasco",
                 Password = password,
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Username = "mtn"
             };
 
 

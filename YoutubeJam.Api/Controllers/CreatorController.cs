@@ -1,13 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using YoutubeJam.BusinessLogic;
-using YoutubeJam.Persistence;
-using YoutubeJam.Persistence.Entities;
 
 namespace YoutubeJam.Api.Controllers
 {
@@ -15,54 +8,51 @@ namespace YoutubeJam.Api.Controllers
     [ApiController]
     public class CreatorController : ControllerBase
     {
+        private IRepository _repository;
+
+        public CreatorController(IRepository repository)
+        {
+            _repository = repository;
+        }
+
         // GET: api/Creator
         [HttpGet]
-        public IEnumerable<BusinessLogic.Creator> Get(IEnumerable<BusinessLogic.Creator> creator)
+        public IEnumerable<Creator> Get()
         {
-            return creator;
+            return _repository.GetCreators();
         }
 
         // GET: api/Creator/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public Creator Get(int id)
         {
-            return "value";
+            List<Creator> tempCreators = new List<Creator>();
+            tempCreators = _repository.GetCreators();
+
+            return tempCreators[id - 1];
         }
 
         // POST: api/Creator
         [HttpPost]
-        public void Post([FromBody] BusinessLogic.Creator inputCreator)
+        public void Post([FromBody] Creator inputCreator)
         {
-            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
-                .UseInMemoryDatabase("AddAnalysisShouldAdd")
-                .Options;
-
-            using var context = new YouTubeJamContext(options);
-            var mapper = new DBMapper(context);
-            var repo = new Repository(context, mapper);
-
-            BusinessLogic.Creator creator = new BusinessLogic.Creator()
+            Creator creator = new Creator()
             {
                 FirstName = inputCreator.FirstName,
                 LastName = inputCreator.LastName,
                 Password = inputCreator.Password,
-                PhoneNumber = inputCreator.PhoneNumber
+                PhoneNumber = inputCreator.PhoneNumber,
+                Username = inputCreator.Username
             };
 
-            repo.AddCreator(creator);
-
+            _repository.AddCreator(creator);
         }
 
         // PUT: api/Creator/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            //Might implement later
         }
     }
 }
