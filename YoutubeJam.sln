@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoutubeJam.BusinessLogic", "YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj", "{96AF1AB2-10D6-4CE5-BB58-4DAE711920E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeJam.Test", "YoutubeJam.Test\YoutubeJam.Test.csproj", "{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoutubeJam.Test", "YoutubeJam.Test\YoutubeJam.Test.csproj", "{46FD4666-0F63-4555-B77A-3EF0FF7F8D4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YoutubeJam.Auth", "YoutubeJam.Auth\YoutubeJam.Auth.csproj", "{E520FCF0-440B-4B4D-9ACE-B0495DBEB671}"
 EndProject
