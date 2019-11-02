@@ -51,7 +51,9 @@ namespace YoutubeJam.Api
                 {
                     builder.WithOrigins(
                         "http://localhost:4200",
-                        "https://youtubejam.azurewebsites.net");
+                        "https://youtubejam.azurewebsites.net")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                 });
             });
         }
