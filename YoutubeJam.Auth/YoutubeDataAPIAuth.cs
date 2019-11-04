@@ -10,7 +10,7 @@ namespace YoutubeJam.Auth
 
         public static string YoutubeDataAPIKey { get; set; }
 
-        private static YouTubeService GetYoutubeService()
+        public static YouTubeService GetYoutubeService()
         {
             // Return a new Youtube Service with the API key and the application name
             return new YouTubeService(new BaseClientService.Initializer()
