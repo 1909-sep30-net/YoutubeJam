@@ -71,14 +71,6 @@ namespace YoutubeJam.Persistence
             };
         }
 
-        public Video ParseVideo(string videourl)
-        {
-            return new Video()
-            {
-                URL = videourl
-            };
-        }
-
         public Video ParseVideo(string videourl, string channelName)
         {
             return new Video()
