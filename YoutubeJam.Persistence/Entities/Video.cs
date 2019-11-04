@@ -10,5 +10,7 @@ namespace YoutubeJam.Persistence.Entities
 
         [Index(IsUnique = true)]
         public string URL { get; set; }
+
+        public Channel VideoChannel { get; set; }
     }
 }

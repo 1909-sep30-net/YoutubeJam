@@ -19,6 +19,8 @@ namespace YoutubeJam.Persistence.Entities
 
         public DbSet<Analysis1> Analysis1 { get; set; }
 
+        public DbSet<Channel> Channel { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Creator>(entity =>
@@ -48,6 +50,7 @@ namespace YoutubeJam.Persistence.Entities
 
                    entity.Property(v => v.URL)
                    .IsRequired();
+
                }
                 );
             modelBuilder.Entity<Analysis1>(entity =>
@@ -60,6 +63,18 @@ namespace YoutubeJam.Persistence.Entities
 
                 entity.Property(a => a.AnalDate)
                 .IsRequired();
+
+            }
+            );
+
+            modelBuilder.Entity<Channel>( entity =>
+            {
+                entity.Property(c => c.ChannelID)
+                .UseIdentityColumn();
+
+                entity.Property(c => c.ChannelName)
+                .IsRequired();
+
             }
             );
         }
