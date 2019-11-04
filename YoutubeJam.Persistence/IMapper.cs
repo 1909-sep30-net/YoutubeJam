@@ -11,5 +11,7 @@ namespace YoutubeJam.Persistence
         Video ParseVideo(string videourl);
         Analysis1 ParseAnalysis(AverageSentiment sentimentAverage, BusinessLogic.Creator c);
         AverageSentiment ParseAnalysis(Analysis1 item);
+        Video ParseVideo(string videourl, string channelName);
+        Channel ParseChannel(BusinessLogic.Creator c, string channelName);
     }
 }

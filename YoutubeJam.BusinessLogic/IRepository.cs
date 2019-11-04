@@ -9,7 +9,8 @@ namespace YoutubeJam.BusinessLogic
     {
         public List<Creator> GetCreators();
         public void AddCreator(Creator c);
-        public void AddVideo(string videourl);
+        public void AddVideo(string videourl, string channelName);
+        public void AddChannel(Creator c, string channelName);
 
         public void AddAnalysis(AverageSentiment sentimentAverage, Creator c);
         public List<AverageSentiment> GetAnalysisHistory(string videourl, Creator c);

@@ -30,6 +30,17 @@ namespace YoutubeJam.Persistence
             _context.SaveChanges();
         }
         /// <summary>
+        /// Adding a channel to the DB, must have a creator in the DB first
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="channelName"></param>
+        public void AddChannel(BL.Creator c, string channelName)
+        {
+            _context.Channel.Add(_map.ParseChannel(c, channelName));
+            _context.SaveChanges();
+        }
+
+        /// <summary>
         /// Method for adding creator to table
         /// </summary>
         /// <param name="c"></param>
@@ -39,14 +50,17 @@ namespace YoutubeJam.Persistence
             _context.SaveChanges();
         }
         /// <summary>
-        /// Method for adding video to db
+        /// Method for adding video to DB, note that every video should have a channel
         /// </summary>
         /// <param name="videourl"></param>
-        public void AddVideo(string videourl)
+        /// <param name="channelName"></param>
+
+        public void AddVideo(string videourl, string channelName)
         {
-            _context.Video.Add(_map.ParseVideo(videourl));
+            _context.Video.Add(_map.ParseVideo(videourl, channelName));
             _context.SaveChanges();
         }
+
         /// <summary>
         /// Method that gets the Analysis History of a certain video by a creator
         /// </summary>

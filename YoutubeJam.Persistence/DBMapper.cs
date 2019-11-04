@@ -11,10 +11,12 @@ namespace YoutubeJam.Persistence
     public class DBMapper : IMapper
     {
         private readonly YouTubeJamContext _context;
+
         public DBMapper(YouTubeJamContext context)
         {
             _context = context;
         }
+
         public Analysis1 ParseAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
             return new Analysis1()
@@ -22,10 +24,10 @@ namespace YoutubeJam.Persistence
                 Creatr = GetCreatorByPhoneNumber(c.PhoneNumber),
                 Vid = GetVideoByURL(sentimentAverage.VideoURL),
                 AnalDate = DateTime.Now,
-                SentAve = (decimal) sentimentAverage.AverageSentimentScore
-
+                SentAve = (decimal)sentimentAverage.AverageSentimentScore
             };
         }
+
         public BL.AverageSentiment ParseAnalysis(Analysis1 item)
         {
             return new BL.AverageSentiment()
@@ -44,8 +46,6 @@ namespace YoutubeJam.Persistence
         {
             return _context.Video.Single(v => v.URL == videoURL);
         }
-
-        
 
         public Creator ParseCreator(BL.Creator creator)
         {
@@ -79,6 +79,27 @@ namespace YoutubeJam.Persistence
             };
         }
 
-        
+        public Video ParseVideo(string videourl, string channelName)
+        {
+            return new Video()
+            {
+                URL = videourl,
+                VideoChannel = GetChannelByName(channelName)
+            };
+        }
+
+        private Channel GetChannelByName(string channelName)
+        {
+            return _context.Channel.SingleOrDefault(c => c.ChannelName == channelName);
+        }
+
+        public Channel ParseChannel(BL.Creator c, string channelName)
+        {
+            return new Channel()
+            {
+                ChannelName = channelName,
+                ChannelAuthor = GetCreatorByPhoneNumber(c.PhoneNumber)
+            };
+        }
     }
 }
