@@ -40,8 +40,39 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             var rest = assertContext.Creator.Select(c => c);
             Assert.NotNull(rest);
-
         }
+
+        [Fact]
+        public void AddChannelShouldAddChannel()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddChannelShouldAdd")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Password = "Password",
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
+            };
+            string channelName = "MatheMartian";
+            //act
+            repo.AddCreator(c);
+            repo.AddChannel(c, channelName);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            var result = assertContext.Channel.FirstOrDefault(c => c.ChannelName == channelName);
+            Assert.NotNull(result);
+        }
+
         /// <summary>
         /// Tests the adding a video to the database
         /// </summary>
@@ -52,15 +83,26 @@ namespace YoutubeJam.Test
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
                 .UseInMemoryDatabase("AddVideoShouldAdd")
                 .Options;
-            var url = "abc";
 
             using var context = new YouTubeJamContext(options);
             var mapper = new DBMapper(context);
             var repo = new Repository(context, mapper);
 
-            //act
-            repo.AddVideo(url);
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Password = "Password",
+                PhoneNumber = "(510) 289 8893",
+                Username = "mtn"
+            };
+            var url = "abc";
+            string channelName = "MatheMartian";
 
+            //act
+            repo.AddCreator(c);
+            repo.AddChannel(c, channelName);
+            repo.AddVideo(url, channelName);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
@@ -68,6 +110,7 @@ namespace YoutubeJam.Test
 
             Assert.NotNull(rest);
         }
+
         /// <summary>
         /// Tests if analysis can be stored in db
         /// </summary>
@@ -99,16 +142,17 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddVideo("Abc");
             repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.AddVideo("Abc", "MatheMartian");
             repo.AddAnalysis(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             var rest = assertContext.Analysis1.First();
             Assert.NotNull(rest);
-
         }
+
         /// <summary>
         /// Tests if analysis is stored properly (i.e. now new instances of creators are created)
         /// </summary>
@@ -140,8 +184,9 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddVideo("Abc");
             repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.AddVideo("Abc", "MatheMartian");
             repo.AddAnalysis(avg, c);
 
             //assert
@@ -155,11 +200,11 @@ namespace YoutubeJam.Test
                 Assert.True(true);
             }
         }
+
         /// <summary>
         /// Tests if adding analysis works properly (i.e. new videos aren't created)
         /// </summary>
         [Fact]
-
         public void AddAnalysisShouldNotCreateNewVideos()
         {
             //arrange
@@ -187,8 +232,9 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddVideo("Abc");
             repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.AddVideo("Abc","MatheMartian");
             repo.AddAnalysis(avg, c);
 
             //assert
@@ -199,8 +245,8 @@ namespace YoutubeJam.Test
             {
                 Assert.True(true);
             }
-
         }
+
         /// <summary>
         /// Testing if the Analysis History can be retrieved
         /// </summary>
@@ -232,8 +278,9 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddVideo("Abc");
             repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.AddVideo("Abc", "MatheMartian");
             repo.AddAnalysis(avg, c);
 
             //assert
@@ -241,13 +288,13 @@ namespace YoutubeJam.Test
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
             var result = repo.GetAnalysisHistory("Abc", c).ToList();
-            Assert.True(result.Count()>0);
+            Assert.True(result.Count() > 0);
         }
+
         /// <summary>
         /// Testing the logging in functionality
         /// </summary>
         [Fact]
-
         public void LogInShouldLogIn()
         {
             //assert
@@ -270,9 +317,8 @@ namespace YoutubeJam.Test
                 Username = "mtn"
             };
 
-
             //act
-            
+
             repo.AddCreator(c);
 
             //assert
