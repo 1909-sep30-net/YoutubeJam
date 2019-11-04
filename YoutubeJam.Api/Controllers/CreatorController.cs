@@ -45,7 +45,6 @@ namespace YoutubeJam.Api.Controllers
         /// </summary>
         /// <param name="inputCreator"></param>
         // POST: api/Creator
-
         [HttpPost]
         public void Post([FromBody] Creator inputCreator)
         {
@@ -71,5 +70,6 @@ namespace YoutubeJam.Api.Controllers
         {
             //Might implement later
         }
+
     }
 }
