@@ -10,6 +10,7 @@ using YoutubeJam.Auth;
 using YoutubeJam.BusinessLogic;
 using YoutubeJam.Persistence;
 using YoutubeJam.Persistence.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace YoutubeJam.Api
 {
@@ -27,6 +28,17 @@ namespace YoutubeJam.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // 1. Add Authentication Services
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://dev-3dz-7lk5.auth0.com/";
+                options.Audience = "https://youtubejamapi.azurewebsites.net/";
+            });
+
             services.AddControllers();
 
             // Register the Swagger generator, defining 1 or more Swagger documents

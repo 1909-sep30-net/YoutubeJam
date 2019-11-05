@@ -6,7 +6,7 @@ namespace YoutubeJam.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VideosController : ControllerBase
+    public class ChannelSentimentController : ControllerBase
     {
         
         /// <summary>
