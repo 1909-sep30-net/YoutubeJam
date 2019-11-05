@@ -13,11 +13,11 @@ namespace YoutubeJam.WebApp.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    public class SentimentController : ControllerBase
+    public class VideoSentimentController : ControllerBase
     {
-        private readonly ILogger<SentimentController> _logger;
+        private readonly ILogger<VideoSentimentController> _logger;
 
-        public SentimentController(ILogger<SentimentController> logger)
+        public VideoSentimentController(ILogger<VideoSentimentController> logger)
         {
             _logger = logger;
         }
