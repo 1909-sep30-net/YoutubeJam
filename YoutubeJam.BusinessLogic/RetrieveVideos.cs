@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using YoutubeJam.Auth;
+using System;
 
 namespace YoutubeJam.BusinessLogic
 {
     public class RetrieveVideos
     {
-
-        public static List<UserVideos> RetrieveVideosList(string channelId)
+        public static ChannelSentimentAverage RetrieveChannelAverage(string channelId)
+        {
+            ChannelSentimentAverage channelSentiment = new ChannelSentimentAverage();
+            channelSentiment.UserVideos = GetVideos(channelId);
+            channelSentiment.AnalysisDate = DateTime.Now;
+            channelSentiment.AverageSentiment = channelSentiment.UserVideos.Average(c => c.SentimentScore);
+            return channelSentiment;
+        }
+        public static List<UserVideo> RetrieveVideosList(string channelId)
         {
             return GetVideos(channelId);
         }
 
-        private static List<UserVideos> GetVideos(string channelId)
+        private static List<UserVideo> GetVideos(string channelId)
         {
-            List<UserVideos> userVideos = new List<UserVideos>();
+            List<UserVideo> userVideos = new List<UserVideo>();
 
             var youtubeService = YoutubeDataAPIAuth.GetYoutubeService();
 
@@ -38,7 +46,7 @@ namespace YoutubeJam.BusinessLogic
                 var playlistItemsListResponse = playlistItemsListRequest.Execute();
                 foreach (var playlistItem in playlistItemsListResponse.Items)
                 {
-                    UserVideos tempVideo = new UserVideos();
+                    UserVideo tempVideo = new UserVideo();
                     tempVideo.VideoURL = playlistItem.Snippet.ResourceId.VideoId;
                     tempVideo.VideoTitle = playlistItem.Snippet.Title;
                     //Video Sentiment
