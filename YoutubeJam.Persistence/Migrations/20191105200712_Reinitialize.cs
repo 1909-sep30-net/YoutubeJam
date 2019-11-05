@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace YoutubeJam.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Reinitialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,14 +14,34 @@ namespace YoutubeJam.Persistence.Migrations
                 {
                     CID = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PhoneNumber = table.Column<long>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false)
+                    LastName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Creator", x => x.CID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Channel",
+                columns: table => new
+                {
+                    ChannelID = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ChannelName = table.Column<string>(nullable: false),
+                    ChannelAuthorCID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Channel", x => x.ChannelID);
+                    table.ForeignKey(
+                        name: "FK_Channel_Creator_ChannelAuthorCID",
+                        column: x => x.ChannelAuthorCID,
+                        principalTable: "Creator",
+                        principalColumn: "CID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -30,11 +50,18 @@ namespace YoutubeJam.Persistence.Migrations
                 {
                     VID = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    URL = table.Column<string>(nullable: false)
+                    URL = table.Column<string>(nullable: false),
+                    VideoChannelChannelID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Video", x => x.VID);
+                    table.ForeignKey(
+                        name: "FK_Video_Channel_VideoChannelChannelID",
+                        column: x => x.VideoChannelChannelID,
+                        principalTable: "Channel",
+                        principalColumn: "ChannelID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,6 +101,16 @@ namespace YoutubeJam.Persistence.Migrations
                 name: "IX_Analysis1_VID",
                 table: "Analysis1",
                 column: "VID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Channel_ChannelAuthorCID",
+                table: "Channel",
+                column: "ChannelAuthorCID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Video_VideoChannelChannelID",
+                table: "Video",
+                column: "VideoChannelChannelID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -82,10 +119,13 @@ namespace YoutubeJam.Persistence.Migrations
                 name: "Analysis1");
 
             migrationBuilder.DropTable(
-                name: "Creator");
+                name: "Video");
 
             migrationBuilder.DropTable(
-                name: "Video");
+                name: "Channel");
+
+            migrationBuilder.DropTable(
+                name: "Creator");
         }
     }
 }

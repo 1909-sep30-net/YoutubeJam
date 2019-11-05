@@ -21,7 +21,7 @@ namespace YoutubeJam.Persistence
         {
             return new Analysis1()
             {
-                Creatr = GetCreatorByPhoneNumber(c.PhoneNumber),
+                Creatr = GetCreatorByEmail(c.Email),
                 Vid = GetVideoByURL(sentimentAverage.VideoURL),
                 AnalDate = DateTime.Now,
                 SentAve = (decimal)sentimentAverage.AverageSentimentScore
@@ -37,9 +37,9 @@ namespace YoutubeJam.Persistence
             };
         }
 
-        private Creator GetCreatorByPhoneNumber(string phoneNumber)
+        private Creator GetCreatorByEmail(string email)
         {
-            return _context.Creator.Single(c => c.PhoneNumber == phoneNumber);
+            return _context.Creator.Single(c => c.Email == email);
         }
 
         private Video GetVideoByURL(string videoURL)
@@ -53,8 +53,7 @@ namespace YoutubeJam.Persistence
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                PhoneNumber = creator.PhoneNumber,
-                Password = creator.Password,
+                Email = creator.Email,
                 UserName = creator.Username,
             };
         }
@@ -65,8 +64,7 @@ namespace YoutubeJam.Persistence
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                PhoneNumber = creator.PhoneNumber,
-                Password = creator.Password,
+                Email = creator.Email,
                 Username = creator.UserName
             };
         }
@@ -90,7 +88,7 @@ namespace YoutubeJam.Persistence
             return new Channel()
             {
                 ChannelName = channelName,
-                ChannelAuthor = GetCreatorByPhoneNumber(c.PhoneNumber)
+                ChannelAuthor = GetCreatorByEmail(c.Email)
             };
         }
     }

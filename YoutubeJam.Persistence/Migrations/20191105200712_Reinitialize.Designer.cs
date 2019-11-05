@@ -10,8 +10,8 @@ using YoutubeJam.Persistence.Entities;
 namespace YoutubeJam.Persistence.Migrations
 {
     [DbContext(typeof(YouTubeJamContext))]
-    [Migration("20191029233320_ChangedDatatypeofPhoneNumber")]
-    partial class ChangedDatatypeofPhoneNumber
+    [Migration("20191105200712_Reinitialize")]
+    partial class Reinitialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,12 +49,37 @@ namespace YoutubeJam.Persistence.Migrations
                     b.ToTable("Analysis1");
                 });
 
+            modelBuilder.Entity("YoutubeJam.Persistence.Entities.Channel", b =>
+                {
+                    b.Property<int>("ChannelID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("ChannelAuthorCID")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ChannelName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("ChannelID");
+
+                    b.HasIndex("ChannelAuthorCID");
+
+                    b.ToTable("Channel");
+                });
+
             modelBuilder.Entity("YoutubeJam.Persistence.Entities.Creator", b =>
                 {
                     b.Property<int>("CID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -64,11 +89,7 @@ namespace YoutubeJam.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -88,7 +109,12 @@ namespace YoutubeJam.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("VideoChannelChannelID")
+                        .HasColumnType("integer");
+
                     b.HasKey("VID");
+
+                    b.HasIndex("VideoChannelChannelID");
 
                     b.ToTable("Video");
                 });
@@ -102,6 +128,20 @@ namespace YoutubeJam.Persistence.Migrations
                     b.HasOne("YoutubeJam.Persistence.Entities.Video", "Vid")
                         .WithMany()
                         .HasForeignKey("VID");
+                });
+
+            modelBuilder.Entity("YoutubeJam.Persistence.Entities.Channel", b =>
+                {
+                    b.HasOne("YoutubeJam.Persistence.Entities.Creator", "ChannelAuthor")
+                        .WithMany()
+                        .HasForeignKey("ChannelAuthorCID");
+                });
+
+            modelBuilder.Entity("YoutubeJam.Persistence.Entities.Video", b =>
+                {
+                    b.HasOne("YoutubeJam.Persistence.Entities.Channel", "VideoChannel")
+                        .WithMany()
+                        .HasForeignKey("VideoChannelChannelID");
                 });
 #pragma warning restore 612, 618
         }

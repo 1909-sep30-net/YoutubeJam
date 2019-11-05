@@ -28,10 +28,7 @@ namespace YoutubeJam.Persistence.Entities
                 entity.Property(c => c.CID)
                 .UseIdentityColumn();
 
-                entity.Property(c => c.PhoneNumber)
-                .IsRequired();
-
-                entity.Property(c => c.Password)
+                entity.Property(c => c.Email)
                 .IsRequired();
 
                 entity.Property(c => c.FirstName)

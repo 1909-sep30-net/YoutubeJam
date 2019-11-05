@@ -70,7 +70,7 @@ namespace YoutubeJam.Persistence
         public List<BL.AverageSentiment> GetAnalysisHistory(string videourl, BL.Creator c)
         {
             List<BL.AverageSentiment> analHist = new List<BL.AverageSentiment>();
-            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.PhoneNumber == c.PhoneNumber).ToList();
+            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.Email == c.Email).ToList();
             foreach (Analysis1 item in analHistfromDB)
             {
                 analHist.Add(_map.ParseAnalysis(item));
@@ -99,10 +99,10 @@ namespace YoutubeJam.Persistence
         /// <param name="passsword"></param>
         /// <returns></returns>
 
-        public BL.Creator LogIn(string phoneNumber, string passsword)
+        public BL.Creator LogIn(string email)
         {
-            if (!_context.Creator.Any(c => c.PhoneNumber == phoneNumber && c.Password == passsword)) throw new CreatorDoesNotExistException("Invalid phone or password");
-            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.PhoneNumber == phoneNumber && c.Password == passsword));
+            if (!_context.Creator.Any(c => c.Email == email)) throw new CreatorDoesNotExistException("Creator is not in database");
+            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
         }
     }
 }
