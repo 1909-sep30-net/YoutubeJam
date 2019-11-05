@@ -1,7 +1,6 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System.Collections.Generic;
-using System.Web.Http;
-using System.Web.Http.Results;
 using Xunit;
 using YoutubeJam.Api.Controllers;
 using YoutubeJam.BusinessLogic;
@@ -53,10 +52,8 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             //act
             var result = controller.Post(inputCreator);
 
-
             //assert
             Assert.IsAssignableFrom<OkResult>(result);
-            
         }
     }
 }
