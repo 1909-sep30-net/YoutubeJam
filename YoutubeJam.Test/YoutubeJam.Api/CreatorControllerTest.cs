@@ -19,8 +19,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
                     new Creator(){
                         FirstName = "Marielle",
                         LastName = "Nolasco",
-                        Password = "Password",
-                        PhoneNumber = "5102898893",
+                        Email = "5102898893",
                         Username = "mtnolasco"
                     }
                 });
@@ -31,7 +30,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
 
             //assert
             var creators = Assert.IsAssignableFrom<List<Creator>>(result);
-            Assert.Equal("5102898893", creators[0].PhoneNumber);
+            Assert.Equal("5102898893", creators[0].Email);
         }
 
         [Fact]
@@ -43,8 +42,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "5102898893",
+                Email = "5102898893",
                 Username = "mtnolasco"
             };
             var controller = new CreatorController(mockRepo.Object);

@@ -28,8 +28,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "Password",
                 Username = "mtn"
             };
 
@@ -58,8 +57,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "(510) 289 8893",
                 Username = "mtn"
             };
             string channelName = "MatheMartian";
@@ -92,8 +90,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "(510) 289 8893",
                 Username = "mtn"
             };
             var url = "abc";
@@ -130,8 +127,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "(510) 289 8893",
                 Username = "mtn"
             };
 
@@ -172,8 +168,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "(510) 289 8893",
                 Username = "mtn"
             };
 
@@ -220,8 +215,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "(510) 289 8893",
                 Username = "mtn"
             };
 
@@ -266,8 +260,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = "Password",
-                PhoneNumber = "(510) 289 8893",
+                Email = "(510) 289 8893",
                 Username = "mtn"
             };
 
@@ -306,14 +299,12 @@ namespace YoutubeJam.Test
             var mapper = new DBMapper(context);
             var repo = new Repository(context, mapper);
 
-            string phoneNumber = "(510) 289 8893";
-            string password = "Password";
+            string email = "(510) 289 8893";
             BusinessLogic.Creator c = new BusinessLogic.Creator()
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Password = password,
-                PhoneNumber = phoneNumber,
+                Email = email,
                 Username = "mtn"
             };
 
@@ -325,7 +316,7 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.LogIn(phoneNumber, password);
+            var result = repo.LogIn(email);
             Assert.NotNull(result);
         }
     }

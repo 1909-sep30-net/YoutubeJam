@@ -52,8 +52,7 @@ namespace YoutubeJam.Api.Controllers
             {
                 FirstName = inputCreator.FirstName,
                 LastName = inputCreator.LastName,
-                Password = inputCreator.Password,
-                PhoneNumber = inputCreator.PhoneNumber,
+                Email = inputCreator.Email,
                 Username = inputCreator.Username
             };
 
