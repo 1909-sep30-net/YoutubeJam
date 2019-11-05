@@ -3,7 +3,7 @@
     /// <summary>
     /// This is a class for our end users' videos
     /// </summary>
-    public class UserVideos
+    public class UserVideo
     {
         public double SentimentScore { get; set; }
         public string VideoURL { get; set; }

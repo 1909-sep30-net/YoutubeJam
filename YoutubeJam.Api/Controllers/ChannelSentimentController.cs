@@ -8,16 +8,16 @@ namespace YoutubeJam.Api.Controllers
     [ApiController]
     public class ChannelSentimentController : ControllerBase
     {
-        
+
         /// <summary>
         /// Action that returns videos and their sentiments from creator 
         /// </summary>
         /// <returns></returns>
         // GET: api/Videos
         [HttpGet]
-        public List<UserVideos> Get(string channel)
+        public ChannelSentimentAverage Get(string channel)
         {
-            return RetrieveVideos.RetrieveVideosList(channel);
+            return RetrieveVideos.RetrieveChannelAverage(channel);
         }
 
     }
