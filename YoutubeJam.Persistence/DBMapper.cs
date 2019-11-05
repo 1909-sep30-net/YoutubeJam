@@ -11,21 +11,23 @@ namespace YoutubeJam.Persistence
     public class DBMapper : IMapper
     {
         private readonly YouTubeJamContext _context;
+
         public DBMapper(YouTubeJamContext context)
         {
             _context = context;
         }
+
         public Analysis1 ParseAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
             return new Analysis1()
             {
-                Creatr = GetCreatorByPhoneNumber(c.PhoneNumber),
+                Creatr = GetCreatorByEmail(c.Email),
                 Vid = GetVideoByURL(sentimentAverage.VideoURL),
                 AnalDate = DateTime.Now,
-                SentAve = (decimal) sentimentAverage.AverageSentimentScore
-
+                SentAve = (decimal)sentimentAverage.AverageSentimentScore
             };
         }
+
         public BL.AverageSentiment ParseAnalysis(Analysis1 item)
         {
             return new BL.AverageSentiment()
@@ -35,9 +37,9 @@ namespace YoutubeJam.Persistence
             };
         }
 
-        private Creator GetCreatorByPhoneNumber(string phoneNumber)
+        private Creator GetCreatorByEmail(string email)
         {
-            return _context.Creator.Single(c => c.PhoneNumber == phoneNumber);
+            return _context.Creator.Single(c => c.Email == email);
         }
 
         private Video GetVideoByURL(string videoURL)
@@ -45,16 +47,13 @@ namespace YoutubeJam.Persistence
             return _context.Video.Single(v => v.URL == videoURL);
         }
 
-        
-
         public Creator ParseCreator(BL.Creator creator)
         {
             return new Creator()
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                PhoneNumber = creator.PhoneNumber,
-                Password = creator.Password,
+                Email = creator.Email,
                 UserName = creator.Username,
             };
         }
@@ -65,20 +64,32 @@ namespace YoutubeJam.Persistence
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                PhoneNumber = creator.PhoneNumber,
-                Password = creator.Password,
+                Email = creator.Email,
                 Username = creator.UserName
             };
         }
 
-        public Video ParseVideo(string videourl)
+        public Video ParseVideo(string videourl, string channelName)
         {
             return new Video()
             {
-                URL = videourl
+                URL = videourl,
+                VideoChannel = GetChannelByName(channelName)
             };
         }
 
-        
+        private Channel GetChannelByName(string channelName)
+        {
+            return _context.Channel.SingleOrDefault(c => c.ChannelName == channelName);
+        }
+
+        public Channel ParseChannel(BL.Creator c, string channelName)
+        {
+            return new Channel()
+            {
+                ChannelName = channelName,
+                ChannelAuthor = GetCreatorByEmail(c.Email)
+            };
+        }
     }
 }

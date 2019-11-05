@@ -30,6 +30,17 @@ namespace YoutubeJam.Persistence
             _context.SaveChanges();
         }
         /// <summary>
+        /// Adding a channel to the DB, must have a creator in the DB first
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="channelName"></param>
+        public void AddChannel(BL.Creator c, string channelName)
+        {
+            _context.Channel.Add(_map.ParseChannel(c, channelName));
+            _context.SaveChanges();
+        }
+
+        /// <summary>
         /// Method for adding creator to table
         /// </summary>
         /// <param name="c"></param>
@@ -39,14 +50,17 @@ namespace YoutubeJam.Persistence
             _context.SaveChanges();
         }
         /// <summary>
-        /// Method for adding video to db
+        /// Method for adding video to DB, note that every video should have a channel
         /// </summary>
         /// <param name="videourl"></param>
-        public void AddVideo(string videourl)
+        /// <param name="channelName"></param>
+
+        public void AddVideo(string videourl, string channelName)
         {
-            _context.Video.Add(_map.ParseVideo(videourl));
+            _context.Video.Add(_map.ParseVideo(videourl, channelName));
             _context.SaveChanges();
         }
+
         /// <summary>
         /// Method that gets the Analysis History of a certain video by a creator
         /// </summary>
@@ -56,7 +70,7 @@ namespace YoutubeJam.Persistence
         public List<BL.AverageSentiment> GetAnalysisHistory(string videourl, BL.Creator c)
         {
             List<BL.AverageSentiment> analHist = new List<BL.AverageSentiment>();
-            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.PhoneNumber == c.PhoneNumber).ToList();
+            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.Email == c.Email).ToList();
             foreach (Analysis1 item in analHistfromDB)
             {
                 analHist.Add(_map.ParseAnalysis(item));
@@ -85,10 +99,10 @@ namespace YoutubeJam.Persistence
         /// <param name="passsword"></param>
         /// <returns></returns>
 
-        public BL.Creator LogIn(string phoneNumber, string passsword)
+        public BL.Creator LogIn(string email)
         {
-            if (!_context.Creator.Any(c => c.PhoneNumber == phoneNumber && c.Password == passsword)) throw new CreatorDoesNotExistException("Invalid phone or password");
-            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.PhoneNumber == phoneNumber && c.Password == passsword));
+            if (!_context.Creator.Any(c => c.Email == email)) throw new CreatorDoesNotExistException("Creator is not in database");
+            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
         }
     }
 }

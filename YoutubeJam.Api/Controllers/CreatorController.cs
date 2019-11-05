@@ -46,18 +46,18 @@ namespace YoutubeJam.Api.Controllers
         /// <param name="inputCreator"></param>
         // POST: api/Creator
         [HttpPost]
-        public void Post([FromBody] Creator inputCreator)
+        public IActionResult Post([FromBody] Creator inputCreator)
         {
             Creator creator = new Creator()
             {
                 FirstName = inputCreator.FirstName,
                 LastName = inputCreator.LastName,
-                Password = inputCreator.Password,
-                PhoneNumber = inputCreator.PhoneNumber,
+                Email = inputCreator.Email,
                 Username = inputCreator.Username
             };
 
             _repository.AddCreator(creator);
+            return CreatedAtAction("POST", creator);
         }
         /// <summary>
         /// Action for modifying creator records
