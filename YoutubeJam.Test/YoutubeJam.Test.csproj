@@ -16,6 +16,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
     <PackageReference Include="Serilog" Version="2.9.0" />
@@ -30,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\YoutubeJam.Api\YoutubeJam.Api.csproj" />
     <ProjectReference Include="..\YoutubeJam.BusinessLogic\YoutubeJam.BusinessLogic.csproj" />
     <ProjectReference Include="..\YoutubeJam.Persistence\YoutubeJam.Persistence.csproj" />
   </ItemGroup>
