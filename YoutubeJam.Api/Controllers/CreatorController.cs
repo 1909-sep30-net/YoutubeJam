@@ -57,7 +57,7 @@ namespace YoutubeJam.Api.Controllers
             };
 
             _repository.AddCreator(creator);
-            return Ok();
+            return CreatedAtAction("POST", creator);
         }
         /// <summary>
         /// Action for modifying creator records

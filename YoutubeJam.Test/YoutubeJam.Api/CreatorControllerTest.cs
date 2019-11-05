@@ -51,7 +51,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var result = controller.Post(inputCreator);
 
             //assert
-            Assert.IsAssignableFrom<OkResult>(result);
+            Assert.IsAssignableFrom<CreatedAtActionResult>(result);
         }
     }
 }
