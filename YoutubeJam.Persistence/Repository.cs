@@ -78,6 +78,16 @@ namespace YoutubeJam.Persistence
             return analHist;
         }
         /// <summary>
+        /// Repo Method that returns a channel name
+        /// </summary>
+        /// <param name="creator"></param>
+        /// <returns></returns>
+        public string GetChannelName(BL.Creator creator)
+        {
+            return _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == creator.Email).ChannelName;
+        }
+
+        /// <summary>
         /// Method that returns all creators from the db
         /// </summary>
         /// <returns></returns>
