@@ -17,7 +17,7 @@ namespace YoutubeJam.BusinessLogic
 
         public Creator LogIn(string email);
 
-        public string GetChannelName(Creator c);
+        public string GetChannelName(Creator creator);
 
     }
 }
