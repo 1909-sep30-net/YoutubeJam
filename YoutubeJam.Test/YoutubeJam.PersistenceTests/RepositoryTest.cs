@@ -28,7 +28,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "Password",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
 
@@ -57,7 +57,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "(510) 289 8893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
             string channelName = "MatheMartian";
@@ -90,7 +90,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "(510) 289 8893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
             var url = "abc";
@@ -127,7 +127,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "(510) 289 8893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
 
@@ -168,7 +168,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "(510) 289 8893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
 
@@ -215,7 +215,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "(510) 289 8893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
 
@@ -260,7 +260,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "(510) 289 8893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtn"
             };
 
@@ -299,7 +299,7 @@ namespace YoutubeJam.Test
             var mapper = new DBMapper(context);
             var repo = new Repository(context, mapper);
 
-            string email = "(510) 289 8893";
+            string email = "mtnolasco@up.edu.ph";
             BusinessLogic.Creator c = new BusinessLogic.Creator()
             {
                 FirstName = "Marielle",
@@ -318,6 +318,41 @@ namespace YoutubeJam.Test
             repo = new Repository(assertContext, mapper);
             var result = repo.LogIn(email);
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void GetChannelNameShouldGetSomething()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("GetChannelNameShouldGetSomething")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph",
+                Username = "mtn"
+            };
+
+            
+
+            //act
+            repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            mapper = new DBMapper(assertContext);
+            repo = new Repository(assertContext, mapper);
+            var result = repo.GetChannelName(c);
+            Assert.True(result == "MatheMartian");
+
         }
     }
 }
