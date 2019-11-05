@@ -9,6 +9,9 @@ namespace YoutubeJam.Test.YoutubeJam.Api
 {
     public class CreatorControllerTest
     {
+        /// <summary>
+        /// Tests get method in controller
+        /// </summary>
         [Fact]
         public void GetShouldGetCreators()
         {
@@ -19,7 +22,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
                     new Creator(){
                         FirstName = "Marielle",
                         LastName = "Nolasco",
-                        Email = "5102898893",
+                        Email = "mtnolasco@up.edu.ph",
                         Username = "mtnolasco"
                     }
                 });
@@ -30,9 +33,12 @@ namespace YoutubeJam.Test.YoutubeJam.Api
 
             //assert
             var creators = Assert.IsAssignableFrom<List<Creator>>(result);
-            Assert.Equal("5102898893", creators[0].Email);
+            Assert.Equal("mtnolasco@up.edu.ph", creators[0].Email);
         }
 
+        /// <summary>
+        /// tests post method in controller
+        /// </summary>
         [Fact]
         public void PostShouldAddCreator()
         {
@@ -42,7 +48,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "5102898893",
+                Email = "mtnolasco@up.edu.ph",
                 Username = "mtnolasco"
             };
             var controller = new CreatorController(mockRepo.Object);

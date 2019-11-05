@@ -319,7 +319,9 @@ namespace YoutubeJam.Test
             var result = repo.LogIn(email);
             Assert.NotNull(result);
         }
-
+        /// <summary>
+        /// Tests if Get channel name functionality works
+        /// </summary>
         [Fact]
         public void GetChannelNameShouldGetSomething()
         {
