@@ -34,12 +34,11 @@ namespace YoutubeJam.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // GET: api/Creator/5
-        [HttpGet("{id}", Name = "Get")]
-        public Creator Get(int id)
+        [HttpGet("{email}", Name = "Get")]
+        public Creator Get(string email)
         {
-            List<Creator> tempCreators = _repository.GetCreators();
-            return tempCreators[id - 1];
+            Creator creator = _repository.GetUser(email);
+            return creator;
         }
         /// <summary>
         /// Action that creates a creator user
