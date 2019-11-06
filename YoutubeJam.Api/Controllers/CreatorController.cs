@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using YoutubeJam.BusinessLogic;
+using YoutubeJam.Persistence;
 
 namespace YoutubeJam.Api.Controllers
 {
@@ -48,16 +49,30 @@ namespace YoutubeJam.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Creator inputCreator)
         {
-            Creator creator = new Creator()
+            
+            try
             {
-                FirstName = inputCreator.FirstName,
-                LastName = inputCreator.LastName,
-                Email = inputCreator.Email,
-                Username = inputCreator.Username
-            };
+                _repository.LogIn(inputCreator.Email);
+                return Ok();
+            }
+            catch (CreatorDoesNotExistException ex)
+            {
+                Creator creator = new Creator()
+                {
+                    FirstName = inputCreator.FirstName,
+                    LastName = inputCreator.LastName,
+                    Email = inputCreator.Email
+                };
 
-            _repository.AddCreator(creator);
-            return CreatedAtAction("POST", creator);
+                _repository.AddCreatorandChannel(creator, inputCreator.ChannelName);
+                return CreatedAtAction("POST", inputCreator);
+            }
+            catch (ChannelNameTakenException ex)
+            {
+                //change channel name and try again
+                return BadRequest();
+            }
+            
         }
         /// <summary>
         /// Action for modifying creator records

@@ -143,7 +143,7 @@ namespace YoutubeJam.Persistence
 
         public void AddCreatorandChannel(BL.Creator c, string channelName)
         {
-            if (CheckIfChannelNameExists(c.Username)) throw new ChannelNameTakenException("Channel Name Already Taken");
+            if (CheckIfChannelNameExists(channelName)) throw new ChannelNameTakenException("Channel Name Already Taken");
             else
             {
                 AddCreator(c);
