@@ -68,6 +68,7 @@ namespace YoutubeJam.WebApp.Controllers
             // Set the average sentiment score
             averageScore.AverageSentimentScore = averageScore.CommentList.Average(c => c.SentimentScore);
             averageScore.VideoURL = commentThreadListResponse.Items[0].Snippet.VideoId;
+            averageScore.AnalysisDate = DateTime.Now;
 
             // Return the parsed comment threads list
             return averageScore;
