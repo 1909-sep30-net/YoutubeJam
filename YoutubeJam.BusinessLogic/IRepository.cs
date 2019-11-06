@@ -15,7 +15,7 @@ namespace YoutubeJam.BusinessLogic
 
         public List<Creator> GetCreators();
         public List<AverageSentiment> GetAnalysisHistory(string videourl, Creator c);
-        public string GetChannelName(Creator creator);
+        public Creator GetUser(string creatorEmail);
         
         public void UpdateChannelName(string newChannelName, Creator channelAuth);
 
