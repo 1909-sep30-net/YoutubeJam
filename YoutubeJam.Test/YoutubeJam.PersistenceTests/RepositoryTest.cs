@@ -356,5 +356,37 @@ namespace YoutubeJam.Test
             Assert.True(result == "MatheMartian");
 
         }
+        [Fact]
+        public void UpdateChannelNameShouldUpdate()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("UpdateChannelNameShouldUpdate")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph",
+                Username = "mtn"
+            };
+
+            //act
+            repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.UpdateChannelName("MathMars", c);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            mapper = new DBMapper(assertContext);
+            repo = new Repository(assertContext, mapper);
+            var result = repo.GetChannelName(c);
+            Assert.True(result == "MathMars");
+        }
     }
 }

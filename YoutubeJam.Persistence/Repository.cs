@@ -114,5 +114,12 @@ namespace YoutubeJam.Persistence
             if (!_context.Creator.Any(c => c.Email == email)) throw new CreatorDoesNotExistException("Creator is not in database");
             return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
         }
+
+        public void UpdateChannelName(string newChannelName, BL.Creator channelAuth)
+        {
+            Channel toUpdate = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == channelAuth.Email);
+            toUpdate.ChannelName = newChannelName;
+            _context.SaveChanges();
+        }
     }
 }
