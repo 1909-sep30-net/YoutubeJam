@@ -87,10 +87,6 @@ namespace YoutubeJam.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("CID");
 
                     b.ToTable("Creator");

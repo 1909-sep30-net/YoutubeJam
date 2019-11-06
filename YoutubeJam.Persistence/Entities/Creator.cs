@@ -13,8 +13,6 @@ namespace YoutubeJam.Persistence.Entities
 
         [Index(IsUnique = true)]
         public string Email { get; set; }
-
-        public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

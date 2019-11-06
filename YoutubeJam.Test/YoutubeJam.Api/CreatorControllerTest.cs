@@ -22,8 +22,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
                     new Creator(){
                         FirstName = "Marielle",
                         LastName = "Nolasco",
-                        Email = "mtnolasco@up.edu.ph",
-                        Username = "mtnolasco"
+                        Email = "mtnolasco@up.edu.ph"
                     }
                 });
             var controller = new CreatorController(mockRepo.Object);
@@ -48,8 +47,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtnolasco"
+                Email = "mtnolasco@up.edu.ph"
             };
             var controller = new CreatorController(mockRepo.Object);
 

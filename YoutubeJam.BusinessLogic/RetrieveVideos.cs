@@ -26,7 +26,7 @@ namespace YoutubeJam.BusinessLogic
         {
             List<UserVideo> userVideos = new List<UserVideo>();
 
-            var youtubeService = YoutubeDataAPIAuth.GetYoutubeService();
+            var youtubeService = YoutubeDataApiAuth.GetYoutubeService();
 
             var channelsListRequest = youtubeService.Channels.List("contentDetails");
             channelsListRequest.ForUsername = channelId;
@@ -50,7 +50,7 @@ namespace YoutubeJam.BusinessLogic
                     tempVideo.VideoURL = playlistItem.Snippet.ResourceId.VideoId;
                     tempVideo.VideoTitle = playlistItem.Snippet.Title;
                     //Video Sentiment
-                    tempVideo.SentimentScore = ParseCommentThreadListResponse(YoutubeDataAPIAuth.GetCommentThreadListResponse(tempVideo.VideoURL, 1));
+                    tempVideo.SentimentScore = ParseCommentThreadListResponse(YoutubeDataApiAuth.GetCommentThreadListResponse(tempVideo.VideoURL, 1));
                     userVideos.Add(tempVideo);
                 }
                 

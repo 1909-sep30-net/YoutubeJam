@@ -54,7 +54,7 @@ namespace YoutubeJam.Api
             services.AddScoped<IMapper, DBMapper>();
 
             // Set the youtube data api key
-            YoutubeDataAPIAuth.YoutubeDataAPIKey = Configuration["YoutubeDataAPIKey"];
+            YoutubeDataApiAuth.YoutubeDataAPIKey = Configuration["YoutubeDataAPIKey"];
 
             services.AddCors(options =>
             {
