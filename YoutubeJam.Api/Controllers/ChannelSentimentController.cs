@@ -1,6 +1,5 @@
-﻿using YoutubeJam.BusinessLogic;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using YoutubeJam.BusinessLogic;
 
 namespace YoutubeJam.Api.Controllers
 {
@@ -8,9 +7,8 @@ namespace YoutubeJam.Api.Controllers
     [ApiController]
     public class ChannelSentimentController : ControllerBase
     {
-
         /// <summary>
-        /// Action that returns videos and their sentiments from creator 
+        /// Action that returns videos and their sentiments from creator
         /// </summary>
         /// <returns></returns>
         // GET: api/Videos
@@ -19,6 +17,5 @@ namespace YoutubeJam.Api.Controllers
         {
             return RetrieveVideos.RetrieveChannelAverage(channel);
         }
-
     }
 }

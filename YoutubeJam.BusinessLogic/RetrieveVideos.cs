@@ -53,7 +53,7 @@ namespace YoutubeJam.BusinessLogic
                     tempVideo.SentimentScore = ParseCommentThreadListResponse(YoutubeDataAPIAuth.GetCommentThreadListResponse(tempVideo.VideoURL, 1));
                     userVideos.Add(tempVideo);
                 }
-                nextPageToken = playlistItemsListResponse.NextPageToken;
+                
             }
             return userVideos;
         }
