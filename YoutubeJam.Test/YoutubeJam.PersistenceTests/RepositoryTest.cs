@@ -7,6 +7,9 @@ using YoutubeJam.Persistence.Entities;
 
 namespace YoutubeJam.Test
 {
+    /// <summary>
+    /// Test class to test the repo functions and all other functions that deal with the database
+    /// </summary>
     public class RepositoryTest
     {
         /// <summary>
@@ -356,6 +359,9 @@ namespace YoutubeJam.Test
             Assert.True(result == "MatheMartian");
 
         }
+        /// <summary>
+        /// Method that tests the update channe name functionality of the repo
+        /// </summary>
         [Fact]
         public void UpdateChannelNameShouldUpdate()
         {

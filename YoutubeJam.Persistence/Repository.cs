@@ -101,6 +101,18 @@ namespace YoutubeJam.Persistence
             }
             return allCreatorsfromDB;
         }
+
+        /// <summary>
+        /// Method that updates channel name of a creator
+        /// </summary>
+        /// <param name="newChannelName"></param>
+        /// <param name="channelAuth"></param>
+        public void UpdateChannelName(string newChannelName, BL.Creator channelAuth)
+        {
+            Channel toUpdate = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == channelAuth.Email);
+            toUpdate.ChannelName = newChannelName;
+            _context.SaveChanges();
+        }
         /// <summary>
         /// Method that takes in log in credentials of user and returns a creator object if it exists in db 
         /// Might be used for cookies upon logging in 
@@ -115,11 +127,6 @@ namespace YoutubeJam.Persistence
             return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
         }
 
-        public void UpdateChannelName(string newChannelName, BL.Creator channelAuth)
-        {
-            Channel toUpdate = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == channelAuth.Email);
-            toUpdate.ChannelName = newChannelName;
-            _context.SaveChanges();
-        }
+        
     }
 }
