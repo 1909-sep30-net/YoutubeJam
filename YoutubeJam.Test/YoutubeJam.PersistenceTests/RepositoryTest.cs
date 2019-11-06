@@ -394,5 +394,82 @@ namespace YoutubeJam.Test
             var result = repo.GetChannelName(c);
             Assert.True(result == "MathMars");
         }
+
+       [Fact]
+       public void ChannelNameShouldBeUniqueTest1()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("ChannelNameShouldBeUniqueTest1")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph",
+                Username = "mtn"
+            };
+
+            //act
+            repo.AddCreator(c);
+
+            try
+            {
+                repo.AddChannel(c, "MatheMartian");
+                repo.AddChannel(c, "MatheMartian");
+
+                //assert
+                Assert.True(false);
+            }
+            catch
+            {
+                Assert.True(true);
+            }
+            
+            
+        }
+        [Fact]
+        public void ChannelNameShouldBeUniqueTest2()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("ChannelNameShouldBeUniqueTest2")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph",
+                Username = "mtn"
+            };
+
+            //act
+            repo.AddCreator(c);
+
+            try
+            {
+                repo.AddChannel(c, "MatheMartian");
+                repo.UpdateChannelName("MatheMartian",c);
+
+                //assert
+                Assert.True(false);
+            }
+            catch
+            {
+                Assert.True(true);
+            }
+
+
+        }
     }
 }
