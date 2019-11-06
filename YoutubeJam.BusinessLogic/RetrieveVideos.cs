@@ -1,12 +1,12 @@
 ﻿using Google.Apis.YouTube.v3.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using YoutubeJam.Auth;
-using System;
 
 namespace YoutubeJam.BusinessLogic
 {
-    public class RetrieveVideos
+    public static class RetrieveVideos
     {
         public static ChannelSentimentAverage RetrieveChannelAverage(string channelId)
         {
@@ -16,6 +16,7 @@ namespace YoutubeJam.BusinessLogic
             channelSentiment.AverageSentiment = channelSentiment.UserVideos.Average(c => c.SentimentScore);
             return channelSentiment;
         }
+
         public static List<UserVideo> RetrieveVideosList(string channelId)
         {
             return GetVideos(channelId);
@@ -34,7 +35,6 @@ namespace YoutubeJam.BusinessLogic
 
             foreach (var channel in channelsListResponse.Items)
             {
-
                 var uploadsListId = channel.ContentDetails.RelatedPlaylists.Uploads;
                 var nextPageToken = "";
 
@@ -54,7 +54,6 @@ namespace YoutubeJam.BusinessLogic
                     userVideos.Add(tempVideo);
                 }
                 nextPageToken = playlistItemsListResponse.NextPageToken;
-
             }
             return userVideos;
         }
@@ -76,6 +75,5 @@ namespace YoutubeJam.BusinessLogic
 
             return averageScore.AverageSentimentScore;
         }
-
     }
 }

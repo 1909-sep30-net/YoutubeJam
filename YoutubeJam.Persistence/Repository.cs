@@ -36,8 +36,13 @@ namespace YoutubeJam.Persistence
         /// <param name="channelName"></param>
         public void AddChannel(BL.Creator c, string channelName)
         {
-            _context.Channel.Add(_map.ParseChannel(c, channelName));
-            _context.SaveChanges();
+            if (CheckIfChannelNameExists(channelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one");
+            else
+            {
+                _context.Channel.Add(_map.ParseChannel(c, channelName));
+                _context.SaveChanges();
+            }
+            
         }
 
         /// <summary>
@@ -101,6 +106,22 @@ namespace YoutubeJam.Persistence
             }
             return allCreatorsfromDB;
         }
+
+        /// <summary>
+        /// Method that updates channel name of a creator
+        /// </summary>
+        /// <param name="newChannelName"></param>
+        /// <param name="channelAuth"></param>
+        public void UpdateChannelName(string newChannelName, BL.Creator channelAuth)
+        {
+            Channel toUpdate = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == channelAuth.Email);
+            if (CheckIfChannelNameExists(newChannelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one"); 
+            else
+            {
+                toUpdate.ChannelName = newChannelName;
+                _context.SaveChanges();
+            }
+        }
         /// <summary>
         /// Method that takes in log in credentials of user and returns a creator object if it exists in db 
         /// Might be used for cookies upon logging in 
@@ -113,6 +134,12 @@ namespace YoutubeJam.Persistence
         {
             if (!_context.Creator.Any(c => c.Email == email)) throw new CreatorDoesNotExistException("Creator is not in database");
             return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
+        }
+
+        private bool CheckIfChannelNameExists(string channelName)
+        {
+            if (_context.Channel.FirstOrDefault(c => c.ChannelName == channelName) != null) return true;
+            return false;
         }
     }
 }
