@@ -10,7 +10,7 @@ using YoutubeJam.Persistence.Entities;
 namespace YoutubeJam.Persistence.Migrations
 {
     [DbContext(typeof(YouTubeJamContext))]
-    [Migration("20191105200712_Reinitialize")]
+    [Migration("20191106205002_Reinitialize")]
     partial class Reinitialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,10 +86,6 @@ namespace YoutubeJam.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 

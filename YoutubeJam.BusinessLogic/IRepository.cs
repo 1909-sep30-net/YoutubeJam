@@ -20,5 +20,7 @@ namespace YoutubeJam.BusinessLogic
         public void UpdateChannelName(string newChannelName, Creator channelAuth);
 
         public Creator LogIn(string email);
+
+        public void AddCreatorandChannel(Creator c, string channelName);
     }
 }

@@ -7,7 +7,6 @@ namespace YoutubeJam.Persistence
 {
     public class Repository : BL.IRepository
     {
-        
         private readonly YouTubeJamContext _context;
         private readonly IMapper _map;
 
@@ -19,6 +18,7 @@ namespace YoutubeJam.Persistence
             _context = context;
             _map = map;
         }
+
         /// <summary>
         /// Method for adding analysis to the db
         /// </summary>
@@ -29,6 +29,7 @@ namespace YoutubeJam.Persistence
             _context.Analysis1.Add(_map.ParseAnalysis(sentimentAverage, c));
             _context.SaveChanges();
         }
+
         /// <summary>
         /// Adding a channel to the DB, must have a creator in the DB first
         /// </summary>
@@ -36,13 +37,8 @@ namespace YoutubeJam.Persistence
         /// <param name="channelName"></param>
         public void AddChannel(BL.Creator c, string channelName)
         {
-            if (CheckIfChannelNameExists(channelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one");
-            else
-            {
-                _context.Channel.Add(_map.ParseChannel(c, channelName));
-                _context.SaveChanges();
-            }
-            
+            _context.Channel.Add(_map.ParseChannel(c, channelName));
+            _context.SaveChanges();
         }
 
         /// <summary>
@@ -54,6 +50,7 @@ namespace YoutubeJam.Persistence
             _context.Creator.Add(_map.ParseCreator(c));
             _context.SaveChanges();
         }
+
         /// <summary>
         /// Method for adding video to DB, note that every video should have a channel
         /// </summary>
@@ -82,6 +79,7 @@ namespace YoutubeJam.Persistence
             }
             return analHist;
         }
+
         /// <summary>
         /// Repo Method that returns a channel name
         /// </summary>
@@ -115,16 +113,17 @@ namespace YoutubeJam.Persistence
         public void UpdateChannelName(string newChannelName, BL.Creator channelAuth)
         {
             Channel toUpdate = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == channelAuth.Email);
-            if (CheckIfChannelNameExists(newChannelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one"); 
+            if (CheckIfChannelNameExists(newChannelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one");
             else
             {
                 toUpdate.ChannelName = newChannelName;
                 _context.SaveChanges();
             }
         }
+
         /// <summary>
-        /// Method that takes in log in credentials of user and returns a creator object if it exists in db 
-        /// Might be used for cookies upon logging in 
+        /// Method that takes in log in credentials of user and returns a creator object if it exists in db
+        /// Might be used for cookies upon logging in
         /// </summary>
         /// <param name="phoneNumber"></param>
         /// <param name="passsword"></param>
@@ -136,10 +135,20 @@ namespace YoutubeJam.Persistence
             return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
         }
 
-        private bool CheckIfChannelNameExists(string channelName)
+        public bool CheckIfChannelNameExists(string channelName)
         {
             if (_context.Channel.FirstOrDefault(c => c.ChannelName == channelName) != null) return true;
             return false;
+        }
+
+        public void AddCreatorandChannel(BL.Creator c, string channelName)
+        {
+            if (CheckIfChannelNameExists(c.Username)) throw new ChannelNameTakenException("Channel Name Already Taken");
+            else
+            {
+                AddCreator(c);
+                AddChannel(c, channelName);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ using Google.Apis.YouTube.v3.Data;
 
 namespace YoutubeJam.Auth
 {
-    public static class YoutubeDataAPIAuth
+    public static class YoutubeDataApiAuth
     {
         private static readonly string _applicationName = "YoutubeJAM";
 

@@ -34,7 +34,7 @@ namespace YoutubeJam.WebApp.Controllers
             try
             {
                 // Return a new sentiment with the summary
-                return ParseCommentThreadListResponse(YoutubeDataAPIAuth.GetCommentThreadListResponse(videoId, maxComments));
+                return ParseCommentThreadListResponse(YoutubeDataApiAuth.GetCommentThreadListResponse(videoId, maxComments));
             }
             catch (AggregateException ex)
             {

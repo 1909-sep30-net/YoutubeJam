@@ -31,8 +31,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             //act
@@ -60,8 +59,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
             string channelName = "MatheMartian";
             //act
@@ -93,8 +91,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
             var url = "abc";
             string channelName = "MatheMartian";
@@ -130,8 +127,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -171,8 +167,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -218,8 +213,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -263,8 +257,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             AverageSentiment avg = new AverageSentiment()
@@ -307,8 +300,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = email,
-                Username = "mtn"
+                Email = email
             };
 
             //act
@@ -341,8 +333,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             
@@ -378,8 +369,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             //act
@@ -411,8 +401,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             //act
@@ -449,8 +438,7 @@ namespace YoutubeJam.Test
             {
                 FirstName = "Marielle",
                 LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph",
-                Username = "mtn"
+                Email = "mtnolasco@up.edu.ph"
             };
 
             //act
@@ -470,6 +458,33 @@ namespace YoutubeJam.Test
             }
 
 
+        }
+
+        [Fact]
+        public void AddCreatorandChannelShouldAdd()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddCreatorandChannelShouldAdd")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            string channelName = "MatheMartian";
+            //act
+            repo.AddCreatorandChannel(c, channelName);
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            var result = assertContext.Channel.FirstOrDefault(c => c.ChannelName == channelName);
+            Assert.NotNull(result);
         }
     }
 }
