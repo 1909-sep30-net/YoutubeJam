@@ -43,6 +43,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
+            mockRepo.Setup(x => x.LogIn(It.IsAny<string>())).Throws(new Persistence.CreatorDoesNotExistException());
             var inputCreator = new Creator()
             {
                 FirstName = "Marielle",

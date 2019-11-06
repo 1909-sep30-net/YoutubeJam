@@ -70,7 +70,8 @@ namespace YoutubeJam.Persistence
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
-                Email = creator.Email
+                Email = creator.Email,
+                ChannelName = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == creator.Email).ChannelName
             };
         }
         /// <summary>

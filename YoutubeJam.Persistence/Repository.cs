@@ -85,9 +85,9 @@ namespace YoutubeJam.Persistence
         /// </summary>
         /// <param name="creator"></param>
         /// <returns></returns>
-        public string GetChannelName(BL.Creator creator)
+        public BL.Creator GetUser(string creatorEmail)
         {
-            return _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == creator.Email).ChannelName;
+            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == creatorEmail));
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace YoutubeJam.Persistence
 
         public void AddCreatorandChannel(BL.Creator c, string channelName)
         {
-            if (CheckIfChannelNameExists(c.Username)) throw new ChannelNameTakenException("Channel Name Already Taken");
+            if (CheckIfChannelNameExists(channelName)) throw new ChannelNameTakenException("Channel Name Already Taken");
             else
             {
                 AddCreator(c);

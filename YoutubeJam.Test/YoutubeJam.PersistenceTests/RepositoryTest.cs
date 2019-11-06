@@ -306,7 +306,7 @@ namespace YoutubeJam.Test
             //act
 
             repo.AddCreator(c);
-
+            repo.AddChannel(c, "Mars");
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
@@ -346,8 +346,8 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetChannelName(c);
-            Assert.True(result == "MatheMartian");
+            var result = repo.GetUser("mtnolasco@up.edu.ph");
+            Assert.True(result.ChannelName == "MatheMartian");
 
         }
         /// <summary>
@@ -381,8 +381,8 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetChannelName(c);
-            Assert.True(result == "MathMars");
+            var result = repo.GetUser("mtnolasco@up.edu.ph");
+            Assert.True(result.ChannelName == "MathMars");
         }
 
        [Fact]
