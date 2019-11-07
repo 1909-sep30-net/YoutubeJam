@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace YoutubeJam.Persistence
 {
@@ -10,6 +11,14 @@ namespace YoutubeJam.Persistence
         }
 
         public ChannelNameTakenException(string message) : base(message)
+        {
+        }
+
+        public ChannelNameTakenException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected ChannelNameTakenException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
