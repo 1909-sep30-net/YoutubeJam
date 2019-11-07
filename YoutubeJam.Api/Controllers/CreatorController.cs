@@ -48,7 +48,7 @@ namespace YoutubeJam.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Creator inputCreator)
         {
-            
+
             try
             {
                 _repository.LogIn(inputCreator.Email);
@@ -71,7 +71,7 @@ namespace YoutubeJam.Api.Controllers
                 {
                     return BadRequest();
                 }
-                   
+
                 return CreatedAtAction("POST", inputCreator);
             }
             catch (ChannelNameTakenException)
@@ -79,7 +79,7 @@ namespace YoutubeJam.Api.Controllers
                 //change channel name and try again
                 return BadRequest();
             }
-            
+
         }
         /// <summary>
         /// Action for modifying creator records
@@ -87,11 +87,11 @@ namespace YoutubeJam.Api.Controllers
         /// <param name="id"></param>
         /// <param name="value"></param>
         // PUT: api/Creator/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //    //Might implement later
-        //}
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+            //Might implement later
+        }
 
     }
 }
