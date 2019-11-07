@@ -243,7 +243,7 @@ namespace YoutubeJam.Test
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
-                .UseInMemoryDatabase("AddAnalysisShouldAdd")
+                .UseInMemoryDatabase("AddAnalysisShouldAddVid")
                 .Options;
 
             using var context = new YouTubeJamContext(options);
@@ -523,6 +523,39 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             var result = assertContext.Channel.FirstOrDefault(c => c.ChannelName == channelName);
             Assert.NotNull(result);
+        }
+        [Fact]
+        public void AddCreatorandChannelShouldBeUnique()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddCreatorandChannelShouldBeUnique")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            string channelName = "MatheMartian";
+            
+            //act
+            try
+            {
+                repo.AddCreatorandChannel(c, channelName);
+                repo.AddCreatorandChannel(c, channelName);
+                Assert.True(false);
+            }
+            catch (ChannelNameTakenException)
+            {
+                Assert.True(true);
+            }
+            
         }
     }
 }

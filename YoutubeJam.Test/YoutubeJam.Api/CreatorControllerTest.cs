@@ -39,7 +39,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
         /// tests post method in controller
         /// </summary>
         [Fact]
-        public void PostShouldAddCreator()
+        public void PostShouldAddCreatorIfLoginFails()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
@@ -57,6 +57,69 @@ namespace YoutubeJam.Test.YoutubeJam.Api
 
             //assert
             Assert.IsAssignableFrom<CreatedAtActionResult>(result);
+        }
+
+        [Fact]
+        public void PostShouldUpdateChannelNameIfLoginPasses()
+        {
+            //arrange
+            var mockRepo = new Mock<IRepository>();
+            var inputCreator = new Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            var controller = new CreatorController(mockRepo.Object);
+
+            //act
+            var result = controller.Post(inputCreator);
+
+            //assert
+            Assert.IsAssignableFrom<OkResult>(result);
+        }
+        [Fact]
+        public void PostShouldHandleChannelNameTakenException()
+        {
+            //arrange
+            var mockRepo = new Mock<IRepository>();
+            mockRepo.Setup(x => x.UpdateChannelName(It.IsAny<string>(), It.IsAny<Creator>())).Throws(new Persistence.ChannelNameTakenException());
+            var inputCreator = new Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            var controller = new CreatorController(mockRepo.Object);
+
+            //act
+            var result = controller.Post(inputCreator);
+
+            //assert
+            Assert.IsAssignableFrom<BadRequestResult>(result);
+
+        }
+        [Fact]
+        public void PostShouldHandleChannelNameTakenExceptionUponCreation()
+        {
+            //arrange
+            var mockRepo = new Mock<IRepository>();
+            mockRepo.Setup(x => x.LogIn(It.IsAny<string>())).Throws(new Persistence.CreatorDoesNotExistException());
+            mockRepo.Setup(x => x.AddCreatorandChannel(It.IsAny<Creator>(), It.IsAny<string>())).Throws(new Persistence.ChannelNameTakenException());
+            var inputCreator = new Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            var controller = new CreatorController(mockRepo.Object);
+
+            //act
+            var result = controller.Post(inputCreator);
+
+            //assert
+            Assert.IsAssignableFrom<BadRequestResult>(result);
+
         }
     }
 }
