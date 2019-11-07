@@ -81,17 +81,7 @@ namespace YoutubeJam.Api.Controllers
             }
 
         }
-        /// <summary>
-        /// Action for modifying creator records
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="value"></param>
-        // PUT: api/Creator/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-            //Might implement later
-        }
+       
 
     }
 }
