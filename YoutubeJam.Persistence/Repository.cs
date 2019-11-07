@@ -27,6 +27,10 @@ namespace YoutubeJam.Persistence
         /// <param name="c"></param>
         public void AddAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
+            if(_context.Video.FirstOrDefault(v => v.URL == sentimentAverage.VideoURL) == null)
+            {
+                AddVideo(sentimentAverage.VideoURL, c.ChannelName);
+            }
             _context.Analysis1.Add(_map.ParseAnalysis(sentimentAverage, c));
             _context.SaveChanges();
         }

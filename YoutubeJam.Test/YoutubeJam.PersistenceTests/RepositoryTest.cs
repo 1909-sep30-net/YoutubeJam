@@ -238,6 +238,41 @@ namespace YoutubeJam.Test
             }
         }
 
+        [Fact]
+        public void AddAnalysisShouldAddVid()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddAnalysisShouldAddVid")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+
+            AverageSentiment avg = new AverageSentiment()
+            {
+                VideoURL = "Abc",
+                AverageSentimentScore = 0.5
+            };
+
+            //act
+            repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.AddAnalysis(avg, c);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            var rest = assertContext.Analysis1.First();
+            Assert.NotNull(rest);
+        }
         /// <summary>
         /// Testing if the Analysis History can be retrieved
         /// </summary>
@@ -488,6 +523,39 @@ namespace YoutubeJam.Test
             using var assertContext = new YouTubeJamContext(options);
             var result = assertContext.Channel.FirstOrDefault(c => c.ChannelName == channelName);
             Assert.NotNull(result);
+        }
+        [Fact]
+        public void AddCreatorandChannelShouldBeUnique()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddCreatorandChannelShouldBeUnique")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            string channelName = "MatheMartian";
+            
+            //act
+            try
+            {
+                repo.AddCreatorandChannel(c, channelName);
+                repo.AddCreatorandChannel(c, channelName);
+                Assert.True(false);
+            }
+            catch (ChannelNameTakenException)
+            {
+                Assert.True(true);
+            }
+            
         }
     }
 }
