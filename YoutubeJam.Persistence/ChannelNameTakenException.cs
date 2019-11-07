@@ -14,12 +14,6 @@ namespace YoutubeJam.Persistence
         {
         }
 
-        public ChannelNameTakenException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected ChannelNameTakenException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+       
     }
 }

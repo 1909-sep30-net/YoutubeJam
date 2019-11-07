@@ -339,15 +339,45 @@ namespace YoutubeJam.Test
             };
 
             //act
-
             repo.AddCreator(c);
-            repo.AddChannel(c, "Mars");
+            repo.AddChannel(c, "Amrs");
+
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
             var result = repo.LogIn(email);
             Assert.NotNull(result);
+        }
+        /// <summary>
+        /// Testing the logging in functionality
+        /// </summary>
+        [Fact]
+        public void LogInShouldHandleExceptions()
+        {
+            //assert
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("LogInShouldHandleExceptions")
+                .Options;
+
+
+            string email = "mtnolasco@up.edu.ph";
+            
+            
+            using var assertContext = new YouTubeJamContext(options);
+            var mapper = new DBMapper(assertContext);
+            var repo = new Repository(assertContext, mapper);
+            //act & assert
+            try
+            {
+                var result = repo.LogIn(email);
+                Assert.True(false);
+            }
+            catch(Persistence.CreatorDoesNotExistException)
+            {
+                Assert.True(true);
+            }
+            
         }
         /// <summary>
         /// Tests if Get channel name functionality works

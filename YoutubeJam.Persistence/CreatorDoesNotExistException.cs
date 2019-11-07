@@ -14,12 +14,5 @@ namespace YoutubeJam.Persistence
         {
         }
 
-        public CreatorDoesNotExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected CreatorDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }
