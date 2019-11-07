@@ -52,6 +52,7 @@ namespace YoutubeJam.Api.Controllers
             try
             {
                 _repository.LogIn(inputCreator.Email);
+                _repository.UpdateChannelName(inputCreator.ChannelName, inputCreator);
                 return Ok();
             }
             catch (CreatorDoesNotExistException ex)
@@ -62,7 +63,6 @@ namespace YoutubeJam.Api.Controllers
                     LastName = inputCreator.LastName,
                     Email = inputCreator.Email
                 };
-
                 _repository.AddCreatorandChannel(creator, inputCreator.ChannelName);
                 return CreatedAtAction("POST", inputCreator);
             }
