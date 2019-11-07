@@ -34,6 +34,28 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var creators = Assert.IsAssignableFrom<List<Creator>>(result);
             Assert.Equal("mtnolasco@up.edu.ph", creators[0].Email);
         }
+        [Fact]
+        public void GetShouldReturnNewestCreator()
+        {
+            //arrange
+            var mockRepo = new Mock<IRepository>();
+            mockRepo.Setup(x => x.GetUser(It.IsAny<string>()))
+                .Returns(
+                    new Creator(){
+                        FirstName = "Marielle",
+                        LastName = "Nolasco",
+                        Email = "mtnolasco@up.edu.ph"
+                    
+                });
+            var controller = new CreatorController(mockRepo.Object);
+
+            //act
+            var result = controller.Get("mtnolasco@up.edu.ph");
+
+            //assert
+            Assert.IsAssignableFrom<Creator>(result);
+            
+        }
 
         /// <summary>
         /// tests post method in controller
