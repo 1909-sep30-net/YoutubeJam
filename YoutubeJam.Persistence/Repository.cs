@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
@@ -72,7 +73,7 @@ namespace YoutubeJam.Persistence
         public List<BL.AverageSentiment> GetAnalysisHistory(string videourl, BL.Creator c)
         {
             List<BL.AverageSentiment> analHist = new List<BL.AverageSentiment>();
-            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.Email == c.Email).ToList();
+            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.Email == c.Email).Include(a => a.Vid).ToList();
             foreach (Analysis1 item in analHistfromDB)
             {
                 analHist.Add(_map.ParseAnalysis(item));
@@ -149,6 +150,18 @@ namespace YoutubeJam.Persistence
                 AddCreator(c);
                 AddChannel(c, channelName);
             }
+        }
+
+        public List<BL.AverageSentiment> GetUserSearchHistory(string creatorEmail)
+        {
+            List<Analysis1> analysesfromDB = _context.Analysis1.Where(a => a.Creatr.Email == creatorEmail).Include(a => a.Vid).ToList();
+            List<BL.AverageSentiment> userHistory = new List<BL.AverageSentiment>();
+            foreach (var item in analysesfromDB)
+            {
+                userHistory.Add(_map.ParseAnalysis(item));
+
+            }
+            return userHistory;
         }
     }
 }

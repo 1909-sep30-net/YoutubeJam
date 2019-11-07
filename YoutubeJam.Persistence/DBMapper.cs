@@ -42,7 +42,8 @@ namespace YoutubeJam.Persistence
             return new BL.AverageSentiment()
             {
                 AverageSentimentScore = (double)item.SentAve,
-                AnalysisDate = item.AnalDate
+                AnalysisDate = item.AnalDate,
+                VideoURL = item.Vid.URL
             };
         }
         /// <summary>

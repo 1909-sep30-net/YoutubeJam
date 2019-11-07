@@ -54,7 +54,7 @@ namespace YoutubeJam.Api.Controllers
                 _repository.LogIn(inputCreator.Email);
                 return Ok();
             }
-            catch (CreatorDoesNotExistException ex)
+            catch (CreatorDoesNotExistException)
             {
                 Creator creator = new Creator()
                 {
@@ -66,7 +66,7 @@ namespace YoutubeJam.Api.Controllers
                 _repository.AddCreatorandChannel(creator, inputCreator.ChannelName);
                 return CreatedAtAction("POST", inputCreator);
             }
-            catch (ChannelNameTakenException ex)
+            catch (ChannelNameTakenException)
             {
                 //change channel name and try again
                 return BadRequest();
