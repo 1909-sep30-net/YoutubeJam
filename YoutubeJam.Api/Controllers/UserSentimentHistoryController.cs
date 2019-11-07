@@ -20,8 +20,17 @@ namespace YoutubeJam.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] VideoHistory inputVideo)
         {
-            _repository.AddVideo(inputVideo.VideoUrl, inputVideo.ChannelName);
-            return Ok();
+            AverageSentiment inputAnalysis = new AverageSentiment()
+            {
+                VideoURL = inputVideo.VideoUrl,
+                AverageSentimentScore = inputVideo.AverageSentimentScore
+            };
+            Creator inputCreator = new Creator()
+            {
+                Email = inputVideo.Email
+            };
+            _repository.AddAnalysis(inputAnalysis, inputCreator);
+            return CreatedAtAction("Post", inputVideo);
         }
 
         // GET: api/UserSentimentHistory

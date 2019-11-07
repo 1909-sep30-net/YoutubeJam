@@ -66,13 +66,14 @@ namespace YoutubeJam.Api.Controllers
                 try
                 {
                     _repository.AddCreatorandChannel(creator, inputCreator.ChannelName);
+                    return CreatedAtAction("POST", inputCreator);
                 }
                 catch (ChannelNameTakenException)
                 {
                     return BadRequest();
                 }
 
-                return CreatedAtAction("POST", inputCreator);
+                
             }
             catch (ChannelNameTakenException)
             {
