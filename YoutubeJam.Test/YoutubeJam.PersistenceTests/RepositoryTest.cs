@@ -350,6 +350,45 @@ namespace YoutubeJam.Test
             Assert.True(result.ChannelName == "MatheMartian");
 
         }
+
+        [Fact]
+        public void GetUserHistoryShouldGetSomething()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("GetUserHistoryShouldGetSomething")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+
+            AverageSentiment avg = new AverageSentiment()
+            {
+                VideoURL = "Abc",
+                AverageSentimentScore = 0.5
+            };
+
+            //act
+            repo.AddCreator(c);
+            repo.AddChannel(c, "MatheMartian");
+            repo.AddVideo("Abc", "MatheMartian");
+            repo.AddAnalysis(avg, c);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            mapper = new DBMapper(assertContext);
+            repo = new Repository(assertContext, mapper);
+            var result = repo.GetUserSearchHistory("mtnolasco@up.edu.ph");
+            Assert.NotNull(result[0].VideoURL);
+        }
         /// <summary>
         /// Method that tests the update channe name functionality of the repo
         /// </summary>
@@ -385,43 +424,7 @@ namespace YoutubeJam.Test
             Assert.True(result.ChannelName == "MathMars");
         }
 
-       [Fact]
-       public void ChannelNameShouldBeUniqueTest1()
-        {
-            //arrange
-            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
-                .UseInMemoryDatabase("ChannelNameShouldBeUniqueTest1")
-                .Options;
-
-            using var context = new YouTubeJamContext(options);
-            var mapper = new DBMapper(context);
-            var repo = new Repository(context, mapper);
-
-            BusinessLogic.Creator c = new BusinessLogic.Creator()
-            {
-                FirstName = "Marielle",
-                LastName = "Nolasco",
-                Email = "mtnolasco@up.edu.ph"
-            };
-
-            //act
-            repo.AddCreator(c);
-
-            try
-            {
-                repo.AddChannel(c, "MatheMartian");
-                repo.AddChannel(c, "MatheMartian");
-
-                //assert
-                Assert.True(false);
-            }
-            catch
-            {
-                Assert.True(true);
-            }
-            
-            
-        }
+       
         [Fact]
         public void ChannelNameShouldBeUniqueTest2()
         {
