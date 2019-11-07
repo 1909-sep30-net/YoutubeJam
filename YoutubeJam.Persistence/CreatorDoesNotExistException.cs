@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace YoutubeJam.Persistence
 {
@@ -13,6 +12,5 @@ namespace YoutubeJam.Persistence
         public CreatorDoesNotExistException(string message) : base(message)
         {
         }
-
     }
 }
