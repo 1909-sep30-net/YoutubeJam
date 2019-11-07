@@ -22,6 +22,13 @@ namespace YoutubeJam.WebApp.Controllers
             _logger = logger;
         }
 
+        private readonly IRepository _repository;
+
+        public VideoSentimentController(IRepository repository)
+        {
+            _repository = repository;
+        }
+
         /// <summary>
         /// Returns the sentiments of a youtube video's comments and its average
         /// </summary>
@@ -34,6 +41,7 @@ namespace YoutubeJam.WebApp.Controllers
             try
             {
                 // Return a new sentiment with the summary
+                
                 return ParseCommentThreadListResponse(YoutubeDataApiAuth.GetCommentThreadListResponse(videoId, maxComments));
             }
             catch (AggregateException ex)
