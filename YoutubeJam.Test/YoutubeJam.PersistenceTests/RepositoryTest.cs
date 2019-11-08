@@ -589,5 +589,43 @@ namespace YoutubeJam.Test
             }
             
         }
+        [Fact]
+        public async Task AddAnalysisAsyncWithLimitedInfoShouldAddAsync()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddAnalysisAsyncWithLimitedInfoShouldAddAsync")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator c = new BusinessLogic.Creator()
+            {
+                FirstName = "Marielle",
+                LastName = "Nolasco",
+                Email = "mtnolasco@up.edu.ph"
+            };
+            BusinessLogic.Creator b = new BusinessLogic.Creator()
+            {
+                Email = "mtnolasco@up.edu.ph"
+            };
+            AverageSentiment avg = new AverageSentiment()
+            {
+                VideoURL = "Abc",
+                AverageSentimentScore = 0.5
+            };
+
+            //act
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddAnalysisAsync(avg, b);
+
+            //assert
+            using var assertContext = new YouTubeJamContext(options);
+            var rest = await assertContext.Analysis1.FirstAsync();
+            Assert.NotNull(rest);
+        }
     }
 }

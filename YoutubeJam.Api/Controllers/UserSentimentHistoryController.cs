@@ -16,21 +16,29 @@ namespace YoutubeJam.Api.Controllers
             _repository = repository;
         }
 
-        // POST: api/VideoSentimentHistory
+        // POST: api/UserSentimentHistory
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] VideoHistory inputVideo)
         {
-            AverageSentiment inputAnalysis = new AverageSentiment()
+            try
             {
-                VideoURL = inputVideo.VideoUrl,
-                AverageSentimentScore = inputVideo.AverageSentimentScore
-            };
-            Creator inputCreator = new Creator()
+                AverageSentiment inputAnalysis = new AverageSentiment()
+                {
+                    VideoURL = inputVideo.VideoUrl,
+                    AverageSentimentScore = inputVideo.AverageSentimentScore
+                };
+                Creator inputCreator = new Creator()
+                {
+                    Email = inputVideo.Email
+                };
+                await _repository.AddAnalysisAsync(inputAnalysis, inputCreator);
+                return CreatedAtAction("Post", inputVideo);
+            }
+            catch
             {
-                Email = inputVideo.Email
-            };
-            await _repository.AddAnalysisAsync(inputAnalysis, inputCreator);
-            return CreatedAtAction("Post", inputVideo);
+                return BadRequest();
+            }
+            
         }
 
         // GET: api/UserSentimentHistory
