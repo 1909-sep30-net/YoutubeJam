@@ -19,7 +19,8 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             {
                 Email = "mtnolasco@up.edu.ph",
                 VideoUrl = "ABC",
-                AverageSentimentScore = 0.5
+                AverageSentimentScore = 0.5,
+                ChannelName = "Mathemars"
 
             };
             var controller = new UserSentimentHistoryController(mockRepo.Object);
