@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using YoutubeJam.BusinessLogic;
 
 namespace YoutubeJam.Api.Controllers
@@ -40,6 +39,5 @@ namespace YoutubeJam.Api.Controllers
         {
             return await _repository.GetUserSearchHistoryAsync(email);
         }
-
     }
 }
