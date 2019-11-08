@@ -57,12 +57,12 @@ namespace YoutubeJam.Persistence
         /// <returns></returns>
         public async Task<Creator> ParseCreatorAsync(BL.Creator creator)
         {
-            return new Creator()
+            return await Task.FromResult(new Creator()
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
                 Email = creator.Email
-            };
+            });
         }
 
         /// <summary>
