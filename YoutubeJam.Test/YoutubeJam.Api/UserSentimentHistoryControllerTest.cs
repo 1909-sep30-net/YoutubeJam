@@ -32,6 +32,28 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             Assert.IsAssignableFrom<CreatedAtActionResult>(result);
         }
         [Fact]
+        public async Task PostShouldHandleRequestsAsync()
+        {
+            //arrange
+            var mockRepo = new Mock<IRepository>();
+            mockRepo.Setup(x => x.AddAnalysisAsync(It.IsAny<AverageSentiment>(), It.IsAny<Creator>())).Throws(new Persistence.CreatorDoesNotExistException());
+            var inputVideoHistory = new VideoHistory()
+            {
+                Email = "mtnolasco@up.edu.ph",
+                VideoUrl = "ABC",
+                AverageSentimentScore = 0.5,
+                ChannelName = "Mathemars"
+
+            };
+            var controller = new UserSentimentHistoryController(mockRepo.Object);
+
+            //act
+            var result = await controller.PostAsync(inputVideoHistory);
+
+            //assert
+            Assert.IsAssignableFrom<BadRequestResult>(result);
+        }
+        [Fact]
 
         public async Task GetShouldGetSomethingAsync()
         {

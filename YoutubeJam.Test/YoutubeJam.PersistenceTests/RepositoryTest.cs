@@ -628,5 +628,41 @@ namespace YoutubeJam.Test
             var rest = await assertContext.Analysis1.FirstAsync();
             Assert.NotNull(rest);
         }
+        [Fact]
+        public async Task AddAnalysisAsyncShouldHandleErrorsAsync()
+        {
+            //arrange
+            var options = new DbContextOptionsBuilder<YouTubeJamContext>()
+                .UseInMemoryDatabase("AddAnalysisAsyncShouldHandleErrorsAsync")
+                .Options;
+
+            using var context = new YouTubeJamContext(options);
+            var mapper = new DBMapper(context);
+            var repo = new Repository(context, mapper);
+
+            BusinessLogic.Creator b = new BusinessLogic.Creator()
+            {
+                Email = "mtnolasco@up.edu.ph",
+                ChannelName = "Mathemartian"
+            };
+            AverageSentiment avg = new AverageSentiment()
+            {
+                VideoURL = "Abc",
+                AverageSentimentScore = 0.5
+            };
+
+            //act
+            try
+            {
+                await repo.AddAnalysisAsync(avg, b);
+                Assert.True(false);
+            } catch (CreatorDoesNotExistException)
+            {
+                //assert
+                Assert.True(true);
+            }
+
+            
+        }
     }
 }
