@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using YoutubeJam.BusinessLogic;
 using YoutubeJam.Persistence;
@@ -16,11 +17,11 @@ namespace YoutubeJam.Test
         /// Testing if creators are added to database
         /// </summary>
         [Fact]
-        public void AddCreatorsShouldAddCreators()
+        public async Task AddCreatorsShouldAddCreatorsAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
-                .UseInMemoryDatabase("AddAnalysisShouldAdd")
+                .UseInMemoryDatabase("AddCreatorsShouldAdd")
                 .Options;
 
             using var context = new YouTubeJamContext(options);
@@ -35,7 +36,7 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
+            await repo.AddCreatorAsync(c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
@@ -44,7 +45,7 @@ namespace YoutubeJam.Test
         }
 
         [Fact]
-        public void AddChannelShouldAddChannel()
+        public async Task AddChannelShouldAddChannelAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -63,12 +64,12 @@ namespace YoutubeJam.Test
             };
             string channelName = "MatheMartian";
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, channelName);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, channelName);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
-            var result = assertContext.Channel.FirstOrDefault(c => c.ChannelName == channelName);
+            var result = await assertContext.Channel.FirstOrDefaultAsync(c => c.ChannelName == channelName);
             Assert.NotNull(result);
         }
 
@@ -76,7 +77,7 @@ namespace YoutubeJam.Test
         /// Tests the adding a video to the database
         /// </summary>
         [Fact]
-        public void AddVideoShouldAddVideo()
+        public async Task AddVideoShouldAddVideoAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -97,13 +98,13 @@ namespace YoutubeJam.Test
             string channelName = "MatheMartian";
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, channelName);
-            repo.AddVideo(url, channelName);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, channelName);
+            await repo.AddVideoAsync(url, channelName);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
-            var rest = assertContext.Video.First(v => v.URL == url);
+            var rest = await assertContext.Video.FirstAsync(v => v.URL == url);
 
             Assert.NotNull(rest);
         }
@@ -112,7 +113,7 @@ namespace YoutubeJam.Test
         /// Tests if analysis can be stored in db
         /// </summary>
         [Fact]
-        public void AddAnalysisShouldAdd()
+        public async Task AddAnalysisShouldAddAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -137,14 +138,14 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.AddVideo("Abc", "MatheMartian");
-            repo.AddAnalysis(avg, c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddVideoAsync("Abc", "MatheMartian");
+            await repo.AddAnalysisAsync(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
-            var rest = assertContext.Analysis1.First();
+            var rest = await assertContext.Analysis1.FirstAsync();
             Assert.NotNull(rest);
         }
 
@@ -152,7 +153,7 @@ namespace YoutubeJam.Test
         /// Tests if analysis is stored properly (i.e. now new instances of creators are created)
         /// </summary>
         [Fact]
-        public void AddAnalysisShouldNotCreateNewCreators()
+        public async Task AddAnalysisShouldNotCreateNewCreatorsAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -177,17 +178,18 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.AddVideo("Abc", "MatheMartian");
-            repo.AddAnalysis(avg, c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddVideoAsync("Abc", "MatheMartian");
+            await repo.AddAnalysisAsync(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
+            var result = await repo.GetCreatorsAsync();
 
-            if (repo.GetCreators().Count > 1) Assert.True(false);
+            if (result.Count > 1) Assert.True(false);
             else
             {
                 Assert.True(true);
@@ -198,7 +200,7 @@ namespace YoutubeJam.Test
         /// Tests if adding analysis works properly (i.e. new videos aren't created)
         /// </summary>
         [Fact]
-        public void AddAnalysisShouldNotCreateNewVideos()
+        public async Task AddAnalysisShouldNotCreateNewVideosAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -223,14 +225,14 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.AddVideo("Abc","MatheMartian");
-            repo.AddAnalysis(avg, c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddVideoAsync("Abc","MatheMartian");
+            await repo.AddAnalysisAsync(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
-            var result = assertContext.Video.Select(v => v).ToList();
+            var result = await assertContext.Video.Select(v => v).ToListAsync();
             if (result.Count() > 1) Assert.True(false);
             else
             {
@@ -239,7 +241,7 @@ namespace YoutubeJam.Test
         }
 
         [Fact]
-        public void AddAnalysisShouldAddVid()
+        public async Task AddAnalysisShouldAddVidAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -264,20 +266,20 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.AddAnalysis(avg, c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddAnalysisAsync(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
-            var rest = assertContext.Analysis1.First();
+            var rest = await assertContext.Analysis1.FirstAsync();
             Assert.NotNull(rest);
         }
         /// <summary>
         /// Testing if the Analysis History can be retrieved
         /// </summary>
         [Fact]
-        public void GetAnalHistoryShouldGetSomething()
+        public async Task GetAnalHistoryShouldGetSomethingAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -302,16 +304,16 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.AddVideo("Abc", "MatheMartian");
-            repo.AddAnalysis(avg, c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddVideoAsync("Abc", "MatheMartian");
+            await repo.AddAnalysisAsync(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetAnalysisHistory("Abc", c).ToList();
+            var result = await repo.GetAnalysisHistoryAsync("Abc", c);
             Assert.True(result.Count() > 0);
         }
 
@@ -319,7 +321,7 @@ namespace YoutubeJam.Test
         /// Testing the logging in functionality
         /// </summary>
         [Fact]
-        public void LogInShouldLogIn()
+        public async Task LogInShouldLogInAsync()
         {
             //assert
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -339,21 +341,21 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "Amrs");
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "Amrs");
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.LogIn(email);
+            var result = await repo.LogInAsync(email);
             Assert.NotNull(result);
         }
         /// <summary>
         /// Testing the logging in functionality
         /// </summary>
         [Fact]
-        public void LogInShouldHandleExceptions()
+        public async Task LogInShouldHandleExceptionsAsync()
         {
             //assert
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -370,7 +372,7 @@ namespace YoutubeJam.Test
             //act & assert
             try
             {
-                var result = repo.LogIn(email);
+                var result = await repo.LogInAsync(email);
                 Assert.True(false);
             }
             catch(Persistence.CreatorDoesNotExistException)
@@ -383,7 +385,7 @@ namespace YoutubeJam.Test
         /// Tests if Get channel name functionality works
         /// </summary>
         [Fact]
-        public void GetChannelNameShouldGetSomething()
+        public async Task GetChannelNameShouldGetSomethingAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -404,20 +406,20 @@ namespace YoutubeJam.Test
             
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetUser("mtnolasco@up.edu.ph");
+            var result = await repo.GetUserAsync("mtnolasco@up.edu.ph");
             Assert.True(result.ChannelName == "MatheMartian");
 
         }
 
         [Fact]
-        public void GetUserHistoryShouldGetSomething()
+        public async Task GetUserHistoryShouldGetSomethingAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -442,23 +444,23 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.AddVideo("Abc", "MatheMartian");
-            repo.AddAnalysis(avg, c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.AddVideoAsync("Abc", "MatheMartian");
+            await repo.AddAnalysisAsync(avg, c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetUserSearchHistory("mtnolasco@up.edu.ph");
+            var result = await repo.GetUserSearchHistoryAsync("mtnolasco@up.edu.ph");
             Assert.NotNull(result[0].VideoURL);
         }
         /// <summary>
         /// Method that tests the update channe name functionality of the repo
         /// </summary>
         [Fact]
-        public void UpdateChannelNameShouldUpdate()
+        public async Task UpdateChannelNameShouldUpdateAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -477,21 +479,21 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
-            repo.AddChannel(c, "MatheMartian");
-            repo.UpdateChannelName("MathMars", c);
+            await repo.AddCreatorAsync(c);
+            await repo.AddChannelAsync(c, "MatheMartian");
+            await repo.UpdateChannelNameAsync("MathMars", c);
 
             //assert
             using var assertContext = new YouTubeJamContext(options);
             mapper = new DBMapper(assertContext);
             repo = new Repository(assertContext, mapper);
-            var result = repo.GetUser("mtnolasco@up.edu.ph");
+            var result = await repo.GetUserAsync("mtnolasco@up.edu.ph");
             Assert.True(result.ChannelName == "MathMars");
         }
 
        
         [Fact]
-        public void ChannelNameShouldBeUniqueTest2()
+        public async Task ChannelNameShouldBeUniqueTest2Async()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -510,12 +512,12 @@ namespace YoutubeJam.Test
             };
 
             //act
-            repo.AddCreator(c);
+            await repo.AddCreatorAsync(c);
 
             try
             {
-                repo.AddChannel(c, "MatheMartian");
-                repo.UpdateChannelName("MatheMartian",c);
+                await repo.AddChannelAsync(c, "MatheMartian");
+                await repo.UpdateChannelNameAsync("MatheMartian",c);
 
                 //assert
                 Assert.True(false);
@@ -529,7 +531,7 @@ namespace YoutubeJam.Test
         }
 
         [Fact]
-        public void AddCreatorandChannelShouldAdd()
+        public async Task AddCreatorandChannelShouldAddAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -548,14 +550,14 @@ namespace YoutubeJam.Test
             };
             string channelName = "MatheMartian";
             //act
-            repo.AddCreatorandChannel(c, channelName);
+            await repo.AddCreatorandChannelAsync(c, channelName);
             //assert
             using var assertContext = new YouTubeJamContext(options);
-            var result = assertContext.Channel.FirstOrDefault(c => c.ChannelName == channelName);
+            var result = assertContext.Channel.FirstOrDefaultAsync(c => c.ChannelName == channelName);
             Assert.NotNull(result);
         }
         [Fact]
-        public void AddCreatorandChannelShouldBeUnique()
+        public async Task AddCreatorandChannelShouldBeUniqueAsync()
         {
             //arrange
             var options = new DbContextOptionsBuilder<YouTubeJamContext>()
@@ -577,8 +579,8 @@ namespace YoutubeJam.Test
             //act
             try
             {
-                repo.AddCreatorandChannel(c, channelName);
-                repo.AddCreatorandChannel(c, channelName);
+                await repo.AddCreatorandChannelAsync(c, channelName);
+                await repo.AddCreatorandChannelAsync(c, channelName);
                 Assert.True(false);
             }
             catch (ChannelNameTakenException)

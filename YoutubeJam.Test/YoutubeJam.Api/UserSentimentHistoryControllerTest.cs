@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using YoutubeJam.Api.Controllers;
 using YoutubeJam.BusinessLogic;
@@ -10,7 +11,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
     public class UserSentimentHistoryControllerTest
     {
         [Fact]
-        public void PostShouldAddAnalysis()
+        public async Task PostShouldAddAnalysisAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
@@ -24,29 +25,29 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var controller = new UserSentimentHistoryController(mockRepo.Object);
 
             //act
-            var result = controller.Post(inputVideoHistory);
+            var result = await controller.PostAsync(inputVideoHistory);
 
             //assert
             Assert.IsAssignableFrom<CreatedAtActionResult>(result);
         }
         [Fact]
 
-        public void GetShouldGetSomething()
+        public async Task GetShouldGetSomethingAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.GetUserSearchHistory(It.IsAny<string>())).Returns(new List<AverageSentiment>()
+            mockRepo.Setup(x => x.GetUserSearchHistoryAsync(It.IsAny<string>())).Returns(Task.FromResult(new List<AverageSentiment>()
             {
                 new AverageSentiment()
                 {
                     VideoURL ="Abc",
                     AverageSentimentScore = 0.5
                 }
-            });
+            }));
             var controller = new UserSentimentHistoryController(mockRepo.Object);
 
             //act
-            var result = controller.Get("mtnolasco@up.edu.ph");
+            var result = await controller.GetAsync("mtnolasco@up.edu.ph");
 
             //assert
             Assert.NotNull(result);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xunit;
 using YoutubeJam.Api.Controllers;
 using YoutubeJam.BusinessLogic;
@@ -13,44 +14,46 @@ namespace YoutubeJam.Test.YoutubeJam.Api
         /// Tests get method in controller
         /// </summary>
         [Fact]
-        public void GetShouldGetCreators()
+        public async Task GetShouldGetCreatorsAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.GetCreators())
-                .Returns(new List<Creator>() {
-                    new Creator(){
-                        FirstName = "Marielle",
-                        LastName = "Nolasco",
-                        Email = "mtnolasco@up.edu.ph"
-                    }
-                });
+            mockRepo.Setup(x => x.GetCreatorsAsync())
+                .Returns(Task.FromResult( new List<Creator>() {
+                new Creator()
+                {
+                    FirstName = "Marielle",
+                    LastName = "Nolasco",
+                    Email = "mtnolasco@up.edu.ph"
+                }
+                }));
             var controller = new CreatorController(mockRepo.Object);
 
             //act
-            var result = controller.Get();
+            var result = await controller.GetAsync();
 
             //assert
             var creators = Assert.IsAssignableFrom<List<Creator>>(result);
             Assert.Equal("mtnolasco@up.edu.ph", creators[0].Email);
         }
         [Fact]
-        public void GetShouldReturnNewestCreator()
+        public async Task GetShouldReturnNewestCreatorAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.GetUser(It.IsAny<string>()))
-                .Returns(
-                    new Creator(){
-                        FirstName = "Marielle",
-                        LastName = "Nolasco",
-                        Email = "mtnolasco@up.edu.ph"
-                    
-                });
+            mockRepo.Setup(x => x.GetUserAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(new Creator()
+                {
+                    FirstName = "Marielle",
+                    LastName = "Nolasco",
+                    Email = "mtnolasco@up.edu.ph"
+
+                })
+                    );
             var controller = new CreatorController(mockRepo.Object);
 
             //act
-            var result = controller.Get("mtnolasco@up.edu.ph");
+            var result = await controller.GetAsync("mtnolasco@up.edu.ph");
 
             //assert
             Assert.IsAssignableFrom<Creator>(result);
@@ -61,11 +64,11 @@ namespace YoutubeJam.Test.YoutubeJam.Api
         /// tests post method in controller
         /// </summary>
         [Fact]
-        public void PostShouldAddCreatorIfLoginFails()
+        public async Task PostShouldAddCreatorIfLoginFailsAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.LogIn(It.IsAny<string>())).Throws(new Persistence.CreatorDoesNotExistException());
+            mockRepo.Setup(x => x.LogInAsync(It.IsAny<string>())).Throws(new Persistence.CreatorDoesNotExistException());
             var inputCreator = new Creator()
             {
                 FirstName = "Marielle",
@@ -75,14 +78,14 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var controller = new CreatorController(mockRepo.Object);
 
             //act
-            var result = controller.Post(inputCreator);
+            var result = await controller.PostAsync(inputCreator);
 
             //assert
             Assert.IsAssignableFrom<CreatedAtActionResult>(result);
         }
 
         [Fact]
-        public void PostShouldUpdateChannelNameIfLoginPasses()
+        public async Task PostShouldUpdateChannelNameIfLoginPassesAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
@@ -95,17 +98,17 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var controller = new CreatorController(mockRepo.Object);
 
             //act
-            var result = controller.Post(inputCreator);
+            var result = await controller.PostAsync(inputCreator);
 
             //assert
             Assert.IsAssignableFrom<OkResult>(result);
         }
         [Fact]
-        public void PostShouldHandleChannelNameTakenException()
+        public async Task PostShouldHandleChannelNameTakenExceptionAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.UpdateChannelName(It.IsAny<string>(), It.IsAny<Creator>())).Throws(new Persistence.ChannelNameTakenException());
+            mockRepo.Setup(x => x.UpdateChannelNameAsync(It.IsAny<string>(), It.IsAny<Creator>())).Throws(new Persistence.ChannelNameTakenException());
             var inputCreator = new Creator()
             {
                 FirstName = "Marielle",
@@ -115,19 +118,19 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var controller = new CreatorController(mockRepo.Object);
 
             //act
-            var result = controller.Post(inputCreator);
+            var result = await controller.PostAsync(inputCreator);
 
             //assert
             Assert.IsAssignableFrom<BadRequestResult>(result);
 
         }
         [Fact]
-        public void PostShouldHandleChannelNameTakenExceptionUponCreation()
+        public async Task PostShouldHandleChannelNameTakenExceptionUponCreationAsync()
         {
             //arrange
             var mockRepo = new Mock<IRepository>();
-            mockRepo.Setup(x => x.LogIn(It.IsAny<string>())).Throws(new Persistence.CreatorDoesNotExistException());
-            mockRepo.Setup(x => x.AddCreatorandChannel(It.IsAny<Creator>(), It.IsAny<string>())).Throws(new Persistence.ChannelNameTakenException());
+            mockRepo.Setup(x => x.LogInAsync(It.IsAny<string>())).Throws(new Persistence.CreatorDoesNotExistException());
+            mockRepo.Setup(x => x.AddCreatorandChannelAsync(It.IsAny<Creator>(), It.IsAny<string>())).Throws(new Persistence.ChannelNameTakenException());
             var inputCreator = new Creator()
             {
                 FirstName = "Marielle",
@@ -137,7 +140,7 @@ namespace YoutubeJam.Test.YoutubeJam.Api
             var controller = new CreatorController(mockRepo.Object);
 
             //act
-            var result = controller.Post(inputCreator);
+            var result = await controller.PostAsync(inputCreator);
 
             //assert
             Assert.IsAssignableFrom<BadRequestResult>(result);

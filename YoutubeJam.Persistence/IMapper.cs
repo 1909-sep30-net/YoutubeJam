@@ -1,15 +1,16 @@
-﻿using YoutubeJam.BusinessLogic;
+﻿using System.Threading.Tasks;
+using YoutubeJam.BusinessLogic;
 using YoutubeJam.Persistence.Entities;
 
 namespace YoutubeJam.Persistence
 {
     public interface IMapper
     {
-        public BusinessLogic.Creator ParseCreator(Entities.Creator creator);
-        public Entities.Creator ParseCreator(BusinessLogic.Creator creator);
-        Analysis1 ParseAnalysis(AverageSentiment sentimentAverage, BusinessLogic.Creator c);
-        AverageSentiment ParseAnalysis(Analysis1 item);
-        Video ParseVideo(string videourl, string channelName);
-        Channel ParseChannel(BusinessLogic.Creator c, string channelName);
+        public Task<BusinessLogic.Creator> ParseCreatorAsync(Entities.Creator creator);
+        public Task<Entities.Creator> ParseCreatorAsync(BusinessLogic.Creator creator);
+        public Task<Analysis1> ParseAnalysisAsync(AverageSentiment sentimentAverage, BusinessLogic.Creator c);
+        public Task<AverageSentiment> ParseAnalysisAsync(Analysis1 item);
+        public Task<Video> ParseVideoAsync(string videourl, string channelName);
+        public Task<Channel> ParseChannelAsync(BusinessLogic.Creator c, string channelName);
     }
 }

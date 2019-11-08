@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
 
@@ -25,14 +26,14 @@ namespace YoutubeJam.Persistence
         /// </summary>
         /// <param name="sentimentAverage"></param>
         /// <param name="c"></param>
-        public void AddAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
+        public async Task AddAnalysisAsync(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
-            if(_context.Video.FirstOrDefault(v => v.URL == sentimentAverage.VideoURL) == null)
+            if( await _context.Video.FirstOrDefaultAsync(v => v.URL == sentimentAverage.VideoURL) == null)
             {
-                AddVideo(sentimentAverage.VideoURL, c.ChannelName);
+                await AddVideoAsync(sentimentAverage.VideoURL, c.ChannelName);
             }
-            _context.Analysis1.Add(_map.ParseAnalysis(sentimentAverage, c));
-            _context.SaveChanges();
+            await _context.Analysis1.AddAsync(await _map.ParseAnalysisAsync(sentimentAverage, c));
+            await _context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -40,20 +41,20 @@ namespace YoutubeJam.Persistence
         /// </summary>
         /// <param name="c"></param>
         /// <param name="channelName"></param>
-        public void AddChannel(BL.Creator c, string channelName)
+        public async Task AddChannelAsync(BL.Creator c, string channelName)
         {
-            _context.Channel.Add(_map.ParseChannel(c, channelName));
-            _context.SaveChanges();
+            await _context.Channel.AddAsync(await _map.ParseChannelAsync(c, channelName));
+            await _context.SaveChangesAsync();
         }
 
         /// <summary>
         /// Method for adding creator to table
         /// </summary>
         /// <param name="c"></param>
-        public void AddCreator(BL.Creator c)
+        public async Task AddCreatorAsync(BL.Creator c)
         {
-            _context.Creator.Add(_map.ParseCreator(c));
-            _context.SaveChanges();
+            await _context.Creator.AddAsync(await _map.ParseCreatorAsync(c));
+            await _context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -62,10 +63,10 @@ namespace YoutubeJam.Persistence
         /// <param name="videourl"></param>
         /// <param name="channelName"></param>
 
-        public void AddVideo(string videourl, string channelName)
+        public async Task AddVideoAsync(string videourl, string channelName)
         {
-            _context.Video.Add(_map.ParseVideo(videourl, channelName));
-            _context.SaveChanges();
+            await _context.Video.AddAsync(await _map.ParseVideoAsync(videourl, channelName));
+            await _context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -74,13 +75,13 @@ namespace YoutubeJam.Persistence
         /// <param name="videourl"></param>
         /// <param name="c"></param>
         /// <returns></returns>
-        public List<BL.AverageSentiment> GetAnalysisHistory(string videourl, BL.Creator c)
+        public async Task<List<BL.AverageSentiment>> GetAnalysisHistoryAsync(string videourl, BL.Creator c)
         {
             List<BL.AverageSentiment> analHist = new List<BL.AverageSentiment>();
-            List<Analysis1> analHistfromDB = _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.Email == c.Email).Include(a => a.Vid).ToList();
+            List<Analysis1> analHistfromDB = await _context.Analysis1.Where(a => a.Vid.URL == videourl && a.Creatr.Email == c.Email).Include(a => a.Vid).ToListAsync();
             foreach (Analysis1 item in analHistfromDB)
             {
-                analHist.Add(_map.ParseAnalysis(item));
+                analHist.Add(await _map.ParseAnalysisAsync(item));
             }
             return analHist;
         }
@@ -90,22 +91,22 @@ namespace YoutubeJam.Persistence
         /// </summary>
         /// <param name="creator"></param>
         /// <returns></returns>
-        public BL.Creator GetUser(string creatorEmail)
+        public async Task<BL.Creator> GetUserAsync(string creatorEmail)
         {
-            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == creatorEmail));
+            return  await _map.ParseCreatorAsync(await _context.Creator.FirstOrDefaultAsync(c => c.Email == creatorEmail));
         }
 
         /// <summary>
         /// Method that returns all creators from the db
         /// </summary>
         /// <returns></returns>
-        public List<BL.Creator> GetCreators()
+        public async Task<List<BL.Creator>> GetCreatorsAsync()
         {
-            List<Creator> allCreators = _context.Creator.Select(c => c).ToList();
+            List<Creator> allCreators = await _context.Creator.Select(c => c).ToListAsync();
             List<BL.Creator> allCreatorsfromDB = new List<BL.Creator>();
             foreach (Entities.Creator item in allCreators)
             {
-                allCreatorsfromDB.Add(_map.ParseCreator(item));
+                allCreatorsfromDB.Add(await _map.ParseCreatorAsync(item));
             }
             return allCreatorsfromDB;
         }
@@ -115,14 +116,14 @@ namespace YoutubeJam.Persistence
         /// </summary>
         /// <param name="newChannelName"></param>
         /// <param name="channelAuth"></param>
-        public void UpdateChannelName(string newChannelName, BL.Creator channelAuth)
+        public async Task UpdateChannelNameAsync(string newChannelName, BL.Creator channelAuth)
         {
-            Channel toUpdate = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == channelAuth.Email);
-            if (CheckIfChannelNameExists(newChannelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one");
+            Channel toUpdate = await _context.Channel.FirstOrDefaultAsync(c => c.ChannelAuthor.Email == channelAuth.Email);
+            if (await CheckIfChannelNameExistsAsync(newChannelName)) throw new ChannelNameTakenException("Channel Name Already Taken. Input a unique one");
             else
             {
                 toUpdate.ChannelName = newChannelName;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -134,35 +135,35 @@ namespace YoutubeJam.Persistence
         /// <param name="passsword"></param>
         /// <returns></returns>
 
-        public BL.Creator LogIn(string email)
+        public async Task<BL.Creator> LogInAsync(string email)
         {
-            if (!_context.Creator.Any(c => c.Email == email)) throw new CreatorDoesNotExistException("Creator is not in database");
-            return _map.ParseCreator(_context.Creator.FirstOrDefault(c => c.Email == email));
+            if (!await _context.Creator.AnyAsync(c => c.Email == email)) throw new CreatorDoesNotExistException("Creator is not in database");
+            return await _map.ParseCreatorAsync(await _context.Creator.FirstOrDefaultAsync(c => c.Email == email));
         }
 
-        public bool CheckIfChannelNameExists(string channelName)
+        public async Task<bool> CheckIfChannelNameExistsAsync(string channelName)
         {
-            if (_context.Channel.FirstOrDefault(c => c.ChannelName == channelName) != null) return true;
+            if (await _context.Channel.FirstOrDefaultAsync(c => c.ChannelName == channelName) != null) return true;
             return false;
         }
 
-        public void AddCreatorandChannel(BL.Creator c, string channelName)
+        public async Task AddCreatorandChannelAsync(BL.Creator c, string channelName)
         {
-            if (CheckIfChannelNameExists(channelName)) throw new ChannelNameTakenException("Channel Name Already Taken");
+            if (await CheckIfChannelNameExistsAsync(channelName)) throw new ChannelNameTakenException("Channel Name Already Taken");
             else
             {
-                AddCreator(c);
-                AddChannel(c, channelName);
+                await AddCreatorAsync(c);
+                await AddChannelAsync(c, channelName);
             }
         }
 
-        public List<BL.AverageSentiment> GetUserSearchHistory(string creatorEmail)
+        public async Task<List<BL.AverageSentiment>> GetUserSearchHistoryAsync(string creatorEmail)
         {
-            List<Analysis1> analysesfromDB = _context.Analysis1.Where(a => a.Creatr.Email == creatorEmail).Include(a => a.Vid).ToList();
+            List<Analysis1> analysesfromDB = await  _context.Analysis1.Where(a => a.Creatr.Email == creatorEmail).Include(a => a.Vid).ToListAsync();
             List<BL.AverageSentiment> userHistory = new List<BL.AverageSentiment>();
             foreach (var item in analysesfromDB)
             {
-                userHistory.Add(_map.ParseAnalysis(item));
+                userHistory.Add(await _map.ParseAnalysisAsync(item));
 
             }
             return userHistory;
