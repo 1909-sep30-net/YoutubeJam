@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
@@ -18,6 +17,7 @@ namespace YoutubeJam.Persistence
         {
             _context = context;
         }
+
         /// <summary>
         /// Method that converts Business Logic Analysis Objects for API to Entity Analysis Objects for DB and vice versa
         /// </summary>
@@ -26,14 +26,15 @@ namespace YoutubeJam.Persistence
         /// <returns></returns>
         public async Task<Analysis1> ParseAnalysisAsync(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
-            return new Analysis1()
+            return await Task.FromResult(new Analysis1()
             {
                 Creatr = await GetCreatorByEmailAsync(c.Email),
                 Vid = await GetVideoByURLAsync(sentimentAverage.VideoURL),
                 AnalDate = DateTime.Now,
                 SentAve = (decimal)sentimentAverage.AverageSentimentScore
-            };
+            });
         }
+
         /// <summary>
         /// Method that converts Business Logic Analysis Objects for API to Entity Analysis Objects for DB and vice versa
         /// </summary>
@@ -41,13 +42,14 @@ namespace YoutubeJam.Persistence
         /// <returns></returns>
         public async Task<BL.AverageSentiment> ParseAnalysisAsync(Analysis1 item)
         {
-            return new BL.AverageSentiment()
+            return await Task.FromResult(new BL.AverageSentiment()
             {
                 AverageSentimentScore = (double)item.SentAve,
                 AnalysisDate = item.AnalDate,
                 VideoURL = item.Vid.URL
-            };
+            });
         }
+
         /// <summary>
         /// Method that converts Business Logic Creator Objects for API to Entity Creator Objects for DB and vice versa
         /// </summary>
@@ -62,6 +64,7 @@ namespace YoutubeJam.Persistence
                 Email = creator.Email
             };
         }
+
         /// <summary>
         /// Method that converts Business Logic Creator Objects for API to Entity Creator Objects for DB and vice versa
         /// </summary>
@@ -78,8 +81,9 @@ namespace YoutubeJam.Persistence
                 ChannelName = Channel.ChannelName
             };
         }
+
         /// <summary>
-        ///  Method that converts video url and channel name from API to Entity Video Objects for DB 
+        ///  Method that converts video url and channel name from API to Entity Video Objects for DB
         /// </summary>
         /// <param name="videourl"></param>
         /// <param name="channelName"></param>
@@ -93,6 +97,7 @@ namespace YoutubeJam.Persistence
                 VideoChannel = await GetChannelByNameAsync(channelName)
             };
         }
+
         /// <summary>
         /// Method that takes in a Channel Author and Channel Name from API and creates a Channel Object for the DB
         /// </summary>
@@ -107,6 +112,7 @@ namespace YoutubeJam.Persistence
                 ChannelAuthor = await GetCreatorByEmailAsync(c.Email)
             };
         }
+
         /// <summary>
         /// Method that gets creator from DB by their email
         /// </summary>
@@ -116,6 +122,7 @@ namespace YoutubeJam.Persistence
         {
             return await _context.Creator.SingleAsync(c => c.Email == email);
         }
+
         /// <summary>
         /// Method that gets video from DB by its URL
         /// </summary>
@@ -125,6 +132,7 @@ namespace YoutubeJam.Persistence
         {
             return await _context.Video.SingleAsync(v => v.URL == videoURL);
         }
+
         /// <summary>
         /// Method that gets the channel from DB by its channel name
         /// </summary>
