@@ -28,6 +28,7 @@ namespace YoutubeJam.Persistence
         /// <param name="c"></param>
         public async Task AddAnalysisAsync(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
+            if (await _context.Creator.FirstOrDefaultAsync(creator => creator.Email == c.Email) == null) throw new CreatorDoesNotExistException();
             if( await _context.Video.FirstOrDefaultAsync(v => v.URL == sentimentAverage.VideoURL) == null)
             {
                 await AddVideoAsync(sentimentAverage.VideoURL, c.ChannelName);
