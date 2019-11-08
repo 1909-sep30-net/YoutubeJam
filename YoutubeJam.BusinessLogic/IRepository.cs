@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace YoutubeJam.BusinessLogic
 {
@@ -8,20 +9,20 @@ namespace YoutubeJam.BusinessLogic
     public interface IRepository
     {
         
-        public void AddCreator(Creator c);
-        public void AddChannel(Creator c, string channelName);
-        public void AddVideo(string videourl, string channelName);
-        public void AddAnalysis(AverageSentiment sentimentAverage, Creator c);
+        public  Task AddCreatorAsync(Creator c);
+        public Task AddChannelAsync(Creator c, string channelName);
+        public Task AddVideoAsync(string videourl, string channelName);
+        public Task AddAnalysisAsync(AverageSentiment sentimentAverage, Creator c);
 
-        public List<Creator> GetCreators();
-        public List<AverageSentiment> GetAnalysisHistory(string videourl, Creator c);
-        public Creator GetUser(string creatorEmail);
-        public List<AverageSentiment> GetUserSearchHistory(string creatorEmail);
+        public Task<List<Creator>> GetCreatorsAsync();
+        public Task<List<AverageSentiment>> GetAnalysisHistoryAsync(string videourl, Creator c);
+        public Task<Creator> GetUserAsync(string creatorEmail);
+        public Task<List<AverageSentiment>> GetUserSearchHistoryAsync(string creatorEmail);
         
-        public void UpdateChannelName(string newChannelName, Creator channelAuth);
+        public Task UpdateChannelNameAsync(string newChannelName, Creator channelAuth);
 
-        public Creator LogIn(string email);
+        public Task<Creator> LogInAsync(string email);
 
-        public void AddCreatorandChannel(Creator c, string channelName);
+        public Task AddCreatorandChannelAsync(Creator c, string channelName);
     }
 }

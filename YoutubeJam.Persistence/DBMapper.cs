@@ -1,5 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using YoutubeJam.Persistence.Entities;
 using BL = YoutubeJam.BusinessLogic;
 
@@ -16,120 +17,130 @@ namespace YoutubeJam.Persistence
         {
             _context = context;
         }
+
         /// <summary>
         /// Method that converts Business Logic Analysis Objects for API to Entity Analysis Objects for DB and vice versa
         /// </summary>
         /// <param name="sentimentAverage"></param>
         /// <param name="c"></param>
         /// <returns></returns>
-        public Analysis1 ParseAnalysis(BL.AverageSentiment sentimentAverage, BL.Creator c)
+        public async Task<Analysis1> ParseAnalysisAsync(BL.AverageSentiment sentimentAverage, BL.Creator c)
         {
-            return new Analysis1()
+            return await Task.FromResult(new Analysis1()
             {
-                Creatr = GetCreatorByEmail(c.Email),
-                Vid = GetVideoByURL(sentimentAverage.VideoURL),
+                Creatr = await GetCreatorByEmailAsync(c.Email),
+                Vid = await GetVideoByURLAsync(sentimentAverage.VideoURL),
                 AnalDate = DateTime.Now,
                 SentAve = (decimal)sentimentAverage.AverageSentimentScore
-            };
+            });
         }
+
         /// <summary>
         /// Method that converts Business Logic Analysis Objects for API to Entity Analysis Objects for DB and vice versa
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public BL.AverageSentiment ParseAnalysis(Analysis1 item)
+        public async Task<BL.AverageSentiment> ParseAnalysisAsync(Analysis1 item)
         {
-            return new BL.AverageSentiment()
+            return await Task.FromResult(new BL.AverageSentiment()
             {
                 AverageSentimentScore = (double)item.SentAve,
                 AnalysisDate = item.AnalDate,
                 VideoURL = item.Vid.URL
-            };
+            });
         }
+
         /// <summary>
         /// Method that converts Business Logic Creator Objects for API to Entity Creator Objects for DB and vice versa
         /// </summary>
         /// <param name="creator"></param>
         /// <returns></returns>
-        public Creator ParseCreator(BL.Creator creator)
+        public async Task<Creator> ParseCreatorAsync(BL.Creator creator)
         {
-            return new Creator()
+            return await Task.FromResult(new Creator()
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
                 Email = creator.Email
-            };
+            });
         }
+
         /// <summary>
         /// Method that converts Business Logic Creator Objects for API to Entity Creator Objects for DB and vice versa
         /// </summary>
         /// <param name="creator"></param>
         /// <returns></returns>
-        public BL.Creator ParseCreator(Creator creator)
+        public async Task<BL.Creator> ParseCreatorAsync(Creator creator)
         {
+            var Channel = await _context.Channel.FirstOrDefaultAsync(c => c.ChannelAuthor.Email == creator.Email);
             return new BL.Creator()
             {
                 FirstName = creator.FirstName,
                 LastName = creator.LastName,
                 Email = creator.Email,
-                ChannelName = _context.Channel.FirstOrDefault(c => c.ChannelAuthor.Email == creator.Email).ChannelName
+                ChannelName = Channel.ChannelName
             };
         }
+
         /// <summary>
-        ///  Method that converts video url and channel name from API to Entity Video Objects for DB 
+        ///  Method that converts video url and channel name from API to Entity Video Objects for DB
         /// </summary>
         /// <param name="videourl"></param>
         /// <param name="channelName"></param>
         /// <returns></returns>
 
-        public Video ParseVideo(string videourl, string channelName)
+        public async Task<Video> ParseVideoAsync(string videourl, string channelName)
         {
             return new Video()
             {
                 URL = videourl,
-                VideoChannel = GetChannelByName(channelName)
+                VideoChannel = await GetChannelByNameAsync(channelName)
             };
         }
+
         /// <summary>
         /// Method that takes in a Channel Author and Channel Name from API and creates a Channel Object for the DB
         /// </summary>
         /// <param name="c"></param>
         /// <param name="channelName"></param>
         /// <returns></returns>
-        public Channel ParseChannel(BL.Creator c, string channelName)
+        public async Task<Channel> ParseChannelAsync(BL.Creator c, string channelName)
         {
             return new Channel()
             {
                 ChannelName = channelName,
-                ChannelAuthor = GetCreatorByEmail(c.Email)
+                ChannelAuthor = await GetCreatorByEmailAsync(c.Email)
             };
         }
+
         /// <summary>
         /// Method that gets creator from DB by their email
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        private Creator GetCreatorByEmail(string email)
+        private async Task<Creator> GetCreatorByEmailAsync(string email)
         {
-            return _context.Creator.Single(c => c.Email == email);
+            return await _context.Creator.SingleAsync(c => c.Email == email);
         }
+
         /// <summary>
         /// Method that gets video from DB by its URL
         /// </summary>
         /// <param name="videoURL"></param>
         /// <returns></returns>
-        private Video GetVideoByURL(string videoURL)
+        private async Task<Video> GetVideoByURLAsync(string videoURL)
         {
-            return _context.Video.Single(v => v.URL == videoURL);
+            return await _context.Video.SingleAsync(v => v.URL == videoURL);
         }
+
         /// <summary>
         /// Method that gets the channel from DB by its channel name
         /// </summary>
         /// <param name="channelName"></param>
         /// <returns></returns>
-        private Channel GetChannelByName(string channelName)
+        private async Task<Channel> GetChannelByNameAsync(string channelName)
         {
-            return _context.Channel.SingleOrDefault(c => c.ChannelName == channelName);
+            return await _context.Channel.SingleOrDefaultAsync(c => c.ChannelName == channelName);
         }
     }
 }

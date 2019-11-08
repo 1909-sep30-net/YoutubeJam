@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using YoutubeJam.BusinessLogic;
 
 namespace YoutubeJam.Api.Controllers
@@ -18,18 +18,26 @@ namespace YoutubeJam.Api.Controllers
 
         // POST: api/VideoSentimentHistory
         [HttpPost]
-        public IActionResult Post([FromBody] VideoHistory inputVideo)
+        public async Task<IActionResult> PostAsync([FromBody] VideoHistory inputVideo)
         {
-            _repository.AddVideo(inputVideo.VideoUrl, inputVideo.ChannelName);
-            return Ok();
+            AverageSentiment inputAnalysis = new AverageSentiment()
+            {
+                VideoURL = inputVideo.VideoUrl,
+                AverageSentimentScore = inputVideo.AverageSentimentScore
+            };
+            Creator inputCreator = new Creator()
+            {
+                Email = inputVideo.Email
+            };
+            await _repository.AddAnalysisAsync(inputAnalysis, inputCreator);
+            return CreatedAtAction("Post", inputVideo);
         }
 
         // GET: api/UserSentimentHistory
         [HttpGet]
-        public IEnumerable<AverageSentiment> Get(string email)
+        public async Task<IEnumerable<AverageSentiment>> GetAsync(string email)
         {
-            return _repository.GetUserSearchHistory(email);
+            return await _repository.GetUserSearchHistoryAsync(email);
         }
-
     }
 }

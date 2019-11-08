@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using YoutubeJam.BusinessLogic;
 using YoutubeJam.Persistence;
 
@@ -25,9 +26,9 @@ namespace YoutubeJam.Api.Controllers
         /// <returns></returns>
         // GET: api/Creator
         [HttpGet]
-        public IEnumerable<Creator> Get()
+        public async Task<IEnumerable<Creator>> GetAsync()
         {
-            return _repository.GetCreators();
+            return await _repository.GetCreatorsAsync();
         }
         /// <summary>
         /// Action that returns latest creator account made
@@ -35,9 +36,9 @@ namespace YoutubeJam.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{email}", Name = "Get")]
-        public Creator Get(string email)
+        public async Task<Creator> GetAsync(string email)
         {
-            Creator creator = _repository.GetUser(email);
+            Creator creator = await _repository.GetUserAsync(email);
             return creator;
         }
         /// <summary>
@@ -46,13 +47,13 @@ namespace YoutubeJam.Api.Controllers
         /// <param name="inputCreator"></param>
         // POST: api/Creator
         [HttpPost]
-        public IActionResult Post([FromBody] Creator inputCreator)
+        public async Task<IActionResult> PostAsync([FromBody] Creator inputCreator)
         {
 
             try
             {
-                _repository.LogIn(inputCreator.Email);
-                _repository.UpdateChannelName(inputCreator.ChannelName, inputCreator);
+                await _repository.LogInAsync(inputCreator.Email);
+                await _repository.UpdateChannelNameAsync(inputCreator.ChannelName, inputCreator);
                 return Ok();
             }
             catch (CreatorDoesNotExistException)
@@ -65,14 +66,15 @@ namespace YoutubeJam.Api.Controllers
                 };
                 try
                 {
-                    _repository.AddCreatorandChannel(creator, inputCreator.ChannelName);
+                    await _repository.AddCreatorandChannelAsync(creator, inputCreator.ChannelName);
+                    return CreatedAtAction("POST", inputCreator);
                 }
                 catch (ChannelNameTakenException)
                 {
                     return BadRequest();
                 }
 
-                return CreatedAtAction("POST", inputCreator);
+                
             }
             catch (ChannelNameTakenException)
             {
@@ -81,17 +83,7 @@ namespace YoutubeJam.Api.Controllers
             }
 
         }
-        /// <summary>
-        /// Action for modifying creator records
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="value"></param>
-        // PUT: api/Creator/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-            //Might implement later
-        }
+       
 
     }
 }
