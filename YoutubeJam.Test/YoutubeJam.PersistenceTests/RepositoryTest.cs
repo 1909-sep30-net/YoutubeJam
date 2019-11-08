@@ -609,7 +609,8 @@ namespace YoutubeJam.Test
             };
             BusinessLogic.Creator b = new BusinessLogic.Creator()
             {
-                Email = "mtnolasco@up.edu.ph"
+                Email = "mtnolasco@up.edu.ph",
+                ChannelName = "Mathemartian"
             };
             AverageSentiment avg = new AverageSentiment()
             {

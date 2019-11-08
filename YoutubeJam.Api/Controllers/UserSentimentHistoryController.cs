@@ -29,7 +29,9 @@ namespace YoutubeJam.Api.Controllers
                 };
                 Creator inputCreator = new Creator()
                 {
-                    Email = inputVideo.Email
+                    Email = inputVideo.Email,
+                    ChannelName = inputVideo.ChannelName
+                    
                 };
                 await _repository.AddAnalysisAsync(inputAnalysis, inputCreator);
                 return CreatedAtAction("Post", inputVideo);
